@@ -25,6 +25,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     /**
      * Creates new form fenetrePrincipal
      */
+    
     public fenetrePrincipal() {
         initComponents();
         premiereUtilisation();
@@ -49,12 +50,14 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             if(id != 0){
                 //il y a un utilisateur : donc on va lancer une connexion et non une création
                 btnLog.setText("Se Connecter");
+                this.setTitle("Transport T'aou - Connexion");
             }else{
                 //il n'y a pas d'utilisateur : donc on va lancer une première inscription
                 JOptionPane.showMessageDialog(MessageBienvenue, "Bienvenue sur Transport T'aou ! \n Il s'agit de votre première utilisation."
                 + "\n Afin que vos données sur Transport T'aou ne soient accessible que par vous même.\nVeuillez vous inscrire en cliquant sur OK",
                 "Inane warning",JOptionPane.WARNING_MESSAGE);
                
+                this.setTitle("Transport T'aou - Inscription");
                 btnLog.setText("S'inscrire");
                 
             }
@@ -87,7 +90,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             String motDePasseBase = resultat.getString("mot_de_passe");
             
             if(nomUtilisateur.equals(nomUtilisateurBase) && motDePasseBase.equals(motDePasse) ){
-                System.out.println("renvoyer vers accueuil"); 
+                 pageAccueuil.setVisible(true);
+                 pageAccueuil.setBounds(0, 0, 1000, 700);
+                 pageAccueuil.setLocationRelativeTo(null);
+                 this.setVisible(false);
+                 
             }else{
               JOptionPane.showMessageDialog(MessageBienvenue, "Nom d'utilisateur ou mot de passe incorrects ",
                     "Inane error",JOptionPane.ERROR_MESSAGE);  
@@ -109,13 +116,105 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         MessageBienvenue = new javax.swing.JOptionPane();
+        pageAccueuil = new javax.swing.JFrame();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnNouveau = new javax.swing.JButton();
+        btnModifier = new javax.swing.JButton();
+        btnSupprimer = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         champNomUtilisateur = new javax.swing.JTextField();
         btnLog = new javax.swing.JButton();
         champMotDePasse = new javax.swing.JPasswordField();
 
+        pageAccueuil.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        pageAccueuil.setTitle("Transport T'aou - Accueil");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 832, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 438, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Clients", jPanel1);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 832, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 438, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Calendrier", jPanel3);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 832, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 438, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Rendez-vous", jPanel2);
+
+        btnNouveau.setText("Nouveau");
+        btnNouveau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNouveauActionPerformed(evt);
+            }
+        });
+
+        btnModifier.setText("Modifier");
+
+        btnSupprimer.setText("Supprimer");
+
+        javax.swing.GroupLayout pageAccueuilLayout = new javax.swing.GroupLayout(pageAccueuil.getContentPane());
+        pageAccueuil.getContentPane().setLayout(pageAccueuilLayout);
+        pageAccueuilLayout.setHorizontalGroup(
+            pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnNouveau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSupprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnModifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        pageAccueuilLayout.setVerticalGroup(
+            pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
+            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addComponent(btnNouveau)
+                .addGap(30, 30, 30)
+                .addComponent(btnModifier)
+                .addGap(32, 32, 32)
+                .addComponent(btnSupprimer)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Transport T'aou");
 
         jLabel1.setText("Nom d'utilisateur");
 
@@ -164,6 +263,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogActionPerformed
@@ -215,6 +315,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             
     }//GEN-LAST:event_btnLogActionPerformed
 
+    private void btnNouveauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNouveauActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNouveauActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -253,9 +357,17 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JOptionPane MessageBienvenue;
     private javax.swing.JButton btnLog;
+    private javax.swing.JButton btnModifier;
+    private javax.swing.JButton btnNouveau;
+    private javax.swing.JButton btnSupprimer;
     private javax.swing.JPasswordField champMotDePasse;
     private javax.swing.JTextField champNomUtilisateur;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JFrame pageAccueuil;
     // End of variables declaration//GEN-END:variables
 }
