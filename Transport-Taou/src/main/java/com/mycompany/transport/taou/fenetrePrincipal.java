@@ -91,7 +91,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             
             if(nomUtilisateur.equals(nomUtilisateurBase) && motDePasseBase.equals(motDePasse) ){
                  pageAccueuil.setVisible(true);
-                 pageAccueuil.setBounds(0, 0, 1000, 700);
+                 pageAccueuil.setBounds(0, 0, 1920, 1080);
                  pageAccueuil.setLocationRelativeTo(null);
                  this.setVisible(false);
                  
@@ -117,13 +117,28 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
         MessageBienvenue = new javax.swing.JOptionPane();
         pageAccueuil = new javax.swing.JFrame();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        onglet = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnNouveau = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
+        CreerModifierClient = new javax.swing.JFrame();
+        labelTitreCreerModifierClient = new javax.swing.JLabel();
+        labelNom = new javax.swing.JLabel();
+        labelPrenom = new javax.swing.JLabel();
+        labelMobile = new javax.swing.JLabel();
+        labelAdresse = new javax.swing.JLabel();
+        champNom = new javax.swing.JTextField();
+        champPrenom = new javax.swing.JTextField();
+        champMobile = new javax.swing.JTextField();
+        champAdresse = new javax.swing.JTextField();
+        btnValider = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         champNomUtilisateur = new javax.swing.JTextField();
@@ -132,85 +147,221 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
         pageAccueuil.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         pageAccueuil.setTitle("Transport T'aou - Accueil");
+        pageAccueuil.setPreferredSize(new java.awt.Dimension(1000, 700));
+        pageAccueuil.setSize(new java.awt.Dimension(1920, 1080));
+
+        onglet.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ongletStateChanged(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nom", "Prenom", "Mobile", "Adresse"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1638, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 105, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Clients", jPanel1);
+        onglet.addTab("Clients", jPanel1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addGap(0, 1638, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGap(0, 532, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Calendrier", jPanel3);
+        onglet.addTab("Calendrier", jPanel3);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addGap(0, 1638, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGap(0, 532, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Rendez-vous", jPanel2);
+        onglet.addTab("Rendez-vous", jPanel2);
 
-        btnNouveau.setText("Nouveau");
+        btnNouveau.setText("Nouveau Client");
         btnNouveau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNouveauActionPerformed(evt);
             }
         });
 
-        btnModifier.setText("Modifier");
+        btnModifier.setText("Modifier Client");
+        btnModifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifierActionPerformed(evt);
+            }
+        });
 
-        btnSupprimer.setText("Supprimer");
+        btnSupprimer.setText("Supprimer Client");
 
         javax.swing.GroupLayout pageAccueuilLayout = new javax.swing.GroupLayout(pageAccueuil.getContentPane());
         pageAccueuil.getContentPane().setLayout(pageAccueuilLayout);
         pageAccueuilLayout.setHorizontalGroup(
             pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pageAccueuilLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pageAccueuilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(onglet, javax.swing.GroupLayout.PREFERRED_SIZE, 1643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnNouveau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSupprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pageAccueuilLayout.setVerticalGroup(
-            pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(pageAccueuilLayout.createSequentialGroup()
                 .addGap(75, 75, 75)
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addComponent(onglet)
+                .addGap(65, 65, 65))
             .addGroup(pageAccueuilLayout.createSequentialGroup()
-                .addGap(122, 122, 122)
+                .addGap(128, 128, 128)
                 .addComponent(btnNouveau)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnModifier)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSupprimer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        labelTitreCreerModifierClient.setText("Création/modification d'un client");
+
+        labelNom.setText("Nom");
+
+        labelPrenom.setText("Prenom");
+
+        labelMobile.setText("Mobile");
+
+        labelAdresse.setText("Adresse");
+
+        champNom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                champNomActionPerformed(evt);
+            }
+        });
+
+        btnValider.setText("Valider");
+        btnValider.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValiderActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("*");
+
+        jLabel5.setText("Les champs qui se succèdent de \"*\" sont facultatif");
+
+        javax.swing.GroupLayout CreerModifierClientLayout = new javax.swing.GroupLayout(CreerModifierClient.getContentPane());
+        CreerModifierClient.getContentPane().setLayout(CreerModifierClientLayout);
+        CreerModifierClientLayout.setHorizontalGroup(
+            CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CreerModifierClientLayout.createSequentialGroup()
+                .addGap(279, 279, 279)
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                    .addGroup(CreerModifierClientLayout.createSequentialGroup()
+                        .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelNom)
+                            .addComponent(labelMobile)
+                            .addComponent(labelPrenom)
+                            .addGroup(CreerModifierClientLayout.createSequentialGroup()
+                                .addComponent(labelAdresse)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(25, 25, 25)
+                        .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelTitreCreerModifierClient)
+                            .addComponent(champNom)
+                            .addComponent(champPrenom)
+                            .addComponent(champMobile)
+                            .addComponent(champAdresse)
+                            .addComponent(btnValider, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))))
+                .addContainerGap(492, Short.MAX_VALUE))
+        );
+        CreerModifierClientLayout.setVerticalGroup(
+            CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CreerModifierClientLayout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addComponent(labelTitreCreerModifierClient, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111)
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNom)
+                    .addComponent(champNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPrenom)
+                    .addComponent(champPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelMobile)
+                    .addComponent(champMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CreerModifierClientLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelAdresse)
+                            .addComponent(champAdresse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(CreerModifierClientLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)))
+                .addGap(55, 55, 55)
+                .addComponent(btnValider)
+                .addGap(53, 53, 53)
+                .addComponent(jLabel5)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -316,8 +467,98 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogActionPerformed
 
     private void btnNouveauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNouveauActionPerformed
-        // TODO add your handling code here:
+        //on est dans le cas bouton nouveau
+        Integer index = onglet.getSelectedIndex();
+        switch(index) {
+            case 0://clients
+                CreerModifierClient.setVisible(true);
+                CreerModifierClient.setBounds(0, 0, 1920, 1080);
+                CreerModifierClient.setLocationRelativeTo(null);
+                CreerModifierClient.setTitle("Transport T'aou - Création d'un client");
+                labelTitreCreerModifierClient.setText("Création d'un client");
+                break;
+            case 1://rendez-vous
+                
+                break;
+            case 2://calendrier
+                
+                break;
+            default:
+                
+        }
     }//GEN-LAST:event_btnNouveauActionPerformed
+
+    private void btnModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifierActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModifierActionPerformed
+
+    private void ongletStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ongletStateChanged
+        Integer index = onglet.getSelectedIndex();
+        switch(index) {
+            case 0://clients
+                btnNouveau.setVisible(true);
+                btnModifier.setVisible(true);
+                btnSupprimer.setVisible(true);
+                btnNouveau.setText("Nouveau Client");
+                btnModifier.setText("Modifier Client");
+                btnSupprimer.setText("Supprimer Client");
+                break;
+            case 1://rendez-vous
+                btnNouveau.setVisible(true);
+                btnModifier.setVisible(true);
+                btnSupprimer.setVisible(true);
+                btnNouveau.setText("Nouveau Rendez-vous");
+                btnModifier.setText("Modifier Rendez-vous");
+                btnSupprimer.setText("Supprimer Rendez-vous");
+                break;
+            case 2://calendrier
+                btnNouveau.setVisible(false);
+                btnModifier.setVisible(false);
+                btnSupprimer.setVisible(false);
+                break;
+            default:
+                
+        }
+    }//GEN-LAST:event_ongletStateChanged
+
+    private void champNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champNomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_champNomActionPerformed
+
+    private void btnValiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderActionPerformed
+        try {
+            //chargement driver
+            Class.forName("org.postgresql.Driver");
+            //connexion bdd
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            
+            String nom = champNom.getText();
+            String prenom = champPrenom.getText();
+            String mobile = champMobile.getText();
+            String adresse = champAdresse.getText();
+            
+            if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
+                 PreparedStatement pst = connexion.prepareStatement("Insert into clients values (?,?,?,?,?)");
+                 pst.setInt(1,1);
+                 pst.setString(2,nom);
+                 pst.setString(3,prenom);
+                 pst.setString(4,mobile);
+                 pst.setString(5,adresse);
+                 pst.execute();
+                 
+                 this.setVisible(false);
+            }else{
+                JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
+                "Inane error",JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnValiderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,19 +596,34 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame CreerModifierClient;
     private javax.swing.JOptionPane MessageBienvenue;
     private javax.swing.JButton btnLog;
     private javax.swing.JButton btnModifier;
     private javax.swing.JButton btnNouveau;
     private javax.swing.JButton btnSupprimer;
+    private javax.swing.JButton btnValider;
+    private javax.swing.JTextField champAdresse;
+    private javax.swing.JTextField champMobile;
     private javax.swing.JPasswordField champMotDePasse;
+    private javax.swing.JTextField champNom;
     private javax.swing.JTextField champNomUtilisateur;
+    private javax.swing.JTextField champPrenom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel labelAdresse;
+    private javax.swing.JLabel labelMobile;
+    private javax.swing.JLabel labelNom;
+    private javax.swing.JLabel labelPrenom;
+    private javax.swing.JLabel labelTitreCreerModifierClient;
+    private javax.swing.JTabbedPane onglet;
     private javax.swing.JFrame pageAccueuil;
     // End of variables declaration//GEN-END:variables
 }
