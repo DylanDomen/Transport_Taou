@@ -106,6 +106,42 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void afficheTableauClients(){
+        try {
+            //chargement driver
+            Class.forName("org.postgresql.Driver");
+            //connexion avec la base
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            
+            //requete
+            Statement st = connexion.createStatement();
+            ResultSet resultat = st.executeQuery("Select * from clients");
+            
+            Integer i = 0;
+            while(resultat.next()){
+                String nom = resultat.getString("nom");
+                String prenom = resultat.getString("prenom");
+                String mobile = resultat.getString("mobile");
+                String adresse = resultat.getString("adresse");
+                Integer id = resultat.getInt("id");
+                tableClients.setValueAt(nom, i, 0);
+                tableClients.setValueAt(prenom, i, 1);
+                tableClients.setValueAt(mobile, i, 2);
+                tableClients.setValueAt(adresse, i, 3);
+                tableClients.setValueAt(id, i, 4);
+                i++;
+            }
+            tableClients.getColumnModel().getColumn(4).setMinWidth(0);
+            tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -120,7 +156,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         onglet = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableClients = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnNouveau = new javax.swing.JButton();
@@ -156,22 +192,35 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nom", "Prenom", "Mobile", "Adresse"
+                "Nom", "Prenom", "Mobile", "Adresse", "id"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -182,12 +231,14 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        tableClients.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableClients);
+        if (tableClients.getColumnModel().getColumnCount() > 0) {
+            tableClients.getColumnModel().getColumn(0).setResizable(false);
+            tableClients.getColumnModel().getColumn(1).setResizable(false);
+            tableClients.getColumnModel().getColumn(2).setResizable(false);
+            tableClients.getColumnModel().getColumn(3).setResizable(false);
+            tableClients.getColumnModel().getColumn(4).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -476,6 +527,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 CreerModifierClient.setLocationRelativeTo(null);
                 CreerModifierClient.setTitle("Transport T'aou - Création d'un client");
                 labelTitreCreerModifierClient.setText("Création d'un client");
+                champNom.setText("");
+                champPrenom.setText("");
+                champMobile.setText("");
+                champAdresse.setText("");
                 break;
             case 1://rendez-vous
                 
@@ -489,13 +544,32 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNouveauActionPerformed
 
     private void btnModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifierActionPerformed
-        // TODO add your handling code here:
+        //on est dans le cas bouton modifier
+        Integer index = onglet.getSelectedIndex();
+        switch(index) {
+            case 0://clients
+                CreerModifierClient.setVisible(true);
+                CreerModifierClient.setBounds(0, 0, 1920, 1080);
+                CreerModifierClient.setLocationRelativeTo(null);
+                CreerModifierClient.setTitle("Transport T'aou - Modification d'un client");
+                labelTitreCreerModifierClient.setText("Modification d'un client");
+                break;
+            case 1://rendez-vous
+                
+                break;
+            case 2://calendrier
+                
+                break;
+            default:
+                
+        }
     }//GEN-LAST:event_btnModifierActionPerformed
 
     private void ongletStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ongletStateChanged
         Integer index = onglet.getSelectedIndex();
         switch(index) {
             case 0://clients
+                afficheTableauClients();
                 btnNouveau.setVisible(true);
                 btnModifier.setVisible(true);
                 btnSupprimer.setVisible(true);
@@ -538,16 +612,24 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             String mobile = champMobile.getText();
             String adresse = champAdresse.getText();
             
+            //récupère le dernier id+1 pour ajouter a la suite
+            Statement st=connexion.createStatement();
+            ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM clients;");
+            resultat.next();
+            int id = resultat.getInt("max")+1;
+            
             if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
                  PreparedStatement pst = connexion.prepareStatement("Insert into clients values (?,?,?,?,?)");
-                 pst.setInt(1,1);
+                 pst.setInt(1,id);
                  pst.setString(2,nom);
                  pst.setString(3,prenom);
                  pst.setString(4,mobile);
                  pst.setString(5,adresse);
                  pst.execute();
+
+                 CreerModifierClient.setVisible(false);
+                 afficheTableauClients();
                  
-                 this.setVisible(false);
             }else{
                 JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
                 "Inane error",JOptionPane.ERROR_MESSAGE);
@@ -617,7 +699,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelAdresse;
     private javax.swing.JLabel labelMobile;
     private javax.swing.JLabel labelNom;
@@ -625,5 +706,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel labelTitreCreerModifierClient;
     private javax.swing.JTabbedPane onglet;
     private javax.swing.JFrame pageAccueuil;
+    private javax.swing.JTable tableClients;
     // End of variables declaration//GEN-END:variables
 }
