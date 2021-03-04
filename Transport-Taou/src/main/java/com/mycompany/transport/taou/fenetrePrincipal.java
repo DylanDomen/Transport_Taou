@@ -66,8 +66,38 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         }
     }
     
-    public void connexion(){
-        
+    public void connexion(String nomUtilisateur, String motDePasse){
+        try {
+            //chargement driver
+            Class.forName("org.postgresql.Driver");
+            
+            //connexion avec la base
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            
+            //requete
+            PreparedStatement pst;
+            pst = connexion.prepareStatement("SELECT * FROM utilisateur WHERE id = ?");
+            pst.setInt(1,1);
+           
+            ResultSet resultat = pst.executeQuery();
+            resultat.next();
+            
+            String nomUtilisateurBase = resultat.getString("nom_utilisateur");
+            String motDePasseBase = resultat.getString("mot_de_passe");
+            
+            if(nomUtilisateur.equals(nomUtilisateurBase) && motDePasseBase.equals(motDePasse) ){
+                System.out.println("renvoyer vers accueuil"); 
+            }else{
+              JOptionPane.showMessageDialog(MessageBienvenue, "Nom d'utilisateur ou mot de passe incorrects ",
+                    "Inane error",JOptionPane.ERROR_MESSAGE);  
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,6 +180,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             Connection connexion;
             connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
             
+            // Hashage d'un mot de passe
+            //String hashed = BCrypt.hashpw(motDePasse,BCrypt.gensalt());
+
             if(etatBTN == "S'inscrire"){
                 //on lui créer un compte utilisateur
                 if(!nomUtilisateur.equals("") && !motDePasse.equals("")){
@@ -167,9 +200,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                     "Inane error",JOptionPane.ERROR_MESSAGE);
                 }
                 
-            }else{
+            }else{//connexion
                 //on test si le nom d'utilisateur + mot de passe correspondent au compte de la base
-
+                connexion(nomUtilisateur,motDePasse);  
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
