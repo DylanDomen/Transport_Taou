@@ -6,6 +6,9 @@
 package com.mycompany.transport.taou;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
@@ -14,7 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -25,7 +31,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     /**
      * Creates new form fenetrePrincipal
      */
-    
+    List<Client> listeClient; //1) on initialise une array list
+    Integer nbLigneFiltre = 0;//nb d'enregistrement du tableau actuel
     public fenetrePrincipal() {
         initComponents();
         premiereUtilisation();
@@ -162,8 +169,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
        }
     }
     
-    public void afficheTableauClientsFiltre(String recherche){
+    public Integer afficheTableauClientsFiltre(String recherche){
         videTableauClients();
+        Integer i = 0;
          try {
             //chargement driver
             Class.forName("org.postgresql.Driver");
@@ -178,7 +186,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
             ResultSet resultat = pst.executeQuery();
             
-            Integer i = 0;
+            
             
             while(resultat.next()){
                 /*Integer nbLignes = tableClients.getRowCount();
@@ -209,6 +217,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+         return i;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -230,7 +239,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         btnNouveau = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnExportCSV = new javax.swing.JButton();
         champRecherche = new javax.swing.JTextField();
         btnRechercher = new javax.swing.JButton();
         CreerModifierClient = new javax.swing.JFrame();
@@ -246,6 +255,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         btnValider = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        selecteurFichier = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         champNomUtilisateur = new javax.swing.JTextField();
@@ -383,10 +393,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Exporter en csv");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnExportCSV.setText("Exporter en csv");
+        btnExportCSV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnExportCSVActionPerformed(evt);
             }
         });
 
@@ -415,7 +425,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                                     .addComponent(btnModifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(pageAccueuilLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnExportCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(pageAccueuilLayout.createSequentialGroup()
                         .addGap(270, 270, 270)
                         .addComponent(champRecherche, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,7 +443,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSupprimer)
                 .addGap(165, 165, 165)
-                .addComponent(jButton1)
+                .addComponent(btnExportCSV)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pageAccueuilLayout.createSequentialGroup()
                 .addGap(0, 19, Short.MAX_VALUE)
@@ -827,9 +837,87 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSupprimerActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnExportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportCSVActionPerformed
+        Integer nbLigne = tableClients.getRowCount();
+        String nom;
+        String prenom;
+        String mobile;
+        String adresse;
+        Integer id;
+        listeClient = new ArrayList<Client>(); //  on instancie
+        
+        
+        if(nbLigneFiltre.equals(0)){
+            try {
+            //export de tout les clients
+            Class.forName("org.postgresql.Driver");
+            
+            //connexion avec la base
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            
+            //requete
+            Statement st = connexion.createStatement();
+            ResultSet resultat = st.executeQuery("Select * from clients");
+            Integer nbEnregistrement = 0;
+             while(resultat.next()){
+                 nbEnregistrement++;
+             }
+             nbLigneFiltre = nbEnregistrement;
+             
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }              
+        }
+        
+        
+        
+        for(Integer i = 0; i< nbLigneFiltre;i++){
+           
+           nom = tableClients.getValueAt(i, 0).toString();
+           prenom = tableClients.getValueAt(i, 1).toString();
+           mobile = tableClients.getValueAt(i, 2).toString();
+           adresse = tableClients.getValueAt(i, 3).toString();
+           String idLigneChaine = tableClients.getValueAt(i,4).toString();
+
+           id = Integer.parseInt(idLigneChaine);
+           Client client = new Client();
+           
+           client.setNom(nom);
+           client.setPrenom(prenom);
+           client.setMobile(mobile);
+           client.setAdresse(adresse);
+           client.setId(id);
+           
+           listeClient.add(client);  
+       }
+        
+        String resultat = "NOM;PRENOM;MOBILE;ADRESSE \n";
+                for(Client client : listeClient){
+                    resultat += client + "\n";
+                }
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier CSV", "csv");
+        selecteurFichier.setFileFilter(filter);
+        int returnval = selecteurFichier.showSaveDialog(this);
+        if(returnval == selecteurFichier.APPROVE_OPTION){
+            File f = selecteurFichier.getSelectedFile();
+            
+            try {
+                FileWriter fw = new FileWriter(f);
+                fw.write(resultat);
+                fw.flush();
+                fw.close();
+            
+            } catch (IOException ex) {
+                Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        listeClient.clear();
+    }//GEN-LAST:event_btnExportCSVActionPerformed
 
     private void btnRechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechercherActionPerformed
         
@@ -838,7 +926,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         if(recherche.equalsIgnoreCase("")){
             afficheTableauClients();
         }else{
-            afficheTableauClientsFiltre(recherche);
+            nbLigneFiltre = afficheTableauClientsFiltre(recherche);
         }
     }//GEN-LAST:event_btnRechercherActionPerformed
 
@@ -880,6 +968,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame CreerModifierClient;
     private javax.swing.JOptionPane MessageBienvenue;
+    private javax.swing.JButton btnExportCSV;
     private javax.swing.JButton btnLog;
     private javax.swing.JButton btnModifier;
     private javax.swing.JButton btnNouveau;
@@ -893,7 +982,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField champNomUtilisateur;
     private javax.swing.JTextField champPrenom;
     private javax.swing.JTextField champRecherche;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -909,6 +997,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel labelTitreCreerModifierClient;
     private javax.swing.JTabbedPane onglet;
     private javax.swing.JFrame pageAccueuil;
+    private javax.swing.JFileChooser selecteurFichier;
     private javax.swing.JTable tableClients;
     // End of variables declaration//GEN-END:variables
 }

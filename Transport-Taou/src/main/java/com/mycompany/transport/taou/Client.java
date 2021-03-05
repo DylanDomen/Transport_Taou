@@ -66,5 +66,10 @@ public class Client {
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
+
+    @Override
+    public String toString() {
+        return nom + "," + prenom + "," + mobile + "," + adresse;
+    }
     
 }
