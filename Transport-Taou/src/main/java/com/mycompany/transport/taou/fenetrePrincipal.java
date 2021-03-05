@@ -120,17 +120,25 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             ResultSet resultat = st.executeQuery("Select * from clients");
             
             Integer i = 0;
+            
             while(resultat.next()){
-                String nom = resultat.getString("nom");
-                String prenom = resultat.getString("prenom");
-                String mobile = resultat.getString("mobile");
-                String adresse = resultat.getString("adresse");
-                Integer id = resultat.getInt("id");
-                tableClients.setValueAt(nom, i, 0);
-                tableClients.setValueAt(prenom, i, 1);
-                tableClients.setValueAt(mobile, i, 2);
-                tableClients.setValueAt(adresse, i, 3);
-                tableClients.setValueAt(id, i, 4);
+                /*Integer nbLignes = tableClients.getRowCount();
+                if(i.equals(nbLignes)){
+                    
+                }*/
+                Client client = new Client();
+                
+                client.setNom(resultat.getString("nom"));
+                client.setPrenom(resultat.getString("prenom"));
+                client.setMobile(resultat.getString("mobile"));
+                client.setAdresse(resultat.getString("adresse"));
+                client.setId(resultat.getInt("id"));
+                
+                tableClients.setValueAt(client.getNom(), i, 0);
+                tableClients.setValueAt(client.getPrenom(), i, 1);
+                tableClients.setValueAt(client.getMobile(), i, 2);
+                tableClients.setValueAt(client.getAdresse(), i, 3);
+                tableClients.setValueAt(client.getId(), i, 4);
                 i++;
             }
             tableClients.getColumnModel().getColumn(4).setMinWidth(0);
@@ -141,6 +149,17 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void videTableauClients(){
+       Integer nbLigne = tableClients.getRowCount();
+       for(Integer i = 0; i< nbLigne;i++){
+           tableClients.setValueAt("", i, 0);
+           tableClients.setValueAt("", i, 1);
+           tableClients.setValueAt("", i, 2);
+           tableClients.setValueAt("", i, 3);
+           tableClients.setValueAt("", i, 4);
+       }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -157,8 +176,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         btnNouveau = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
@@ -210,6 +229,15 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
@@ -245,29 +273,16 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1638, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1638, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 105, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addGap(35, 35, 35))
         );
 
         onglet.addTab("Clients", jPanel1);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1638, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 532, Short.MAX_VALUE)
-        );
-
-        onglet.addTab("Calendrier", jPanel3);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -277,10 +292,23 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 532, Short.MAX_VALUE)
+            .addGap(0, 672, Short.MAX_VALUE)
         );
 
         onglet.addTab("Rendez-vous", jPanel2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1638, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 672, Short.MAX_VALUE)
+        );
+
+        onglet.addTab("Calendrier", jPanel3);
 
         btnNouveau.setText("Nouveau Client");
         btnNouveau.addActionListener(new java.awt.event.ActionListener() {
@@ -297,6 +325,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         });
 
         btnSupprimer.setText("Supprimer Client");
+        btnSupprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprimerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pageAccueuilLayout = new javax.swing.GroupLayout(pageAccueuil.getContentPane());
         pageAccueuil.getContentPane().setLayout(pageAccueuilLayout);
@@ -315,10 +348,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         pageAccueuilLayout.setVerticalGroup(
             pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(pageAccueuilLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(onglet)
-                .addGap(65, 65, 65))
-            .addGroup(pageAccueuilLayout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addComponent(btnNouveau)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -326,6 +355,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSupprimer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(onglet, javax.swing.GroupLayout.Alignment.LEADING)
         );
 
         labelTitreCreerModifierClient.setText("Création/modification d'un client");
@@ -499,7 +529,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                     champMotDePasse.setText("");
                 }else{
                     JOptionPane.showMessageDialog(MessageBienvenue, "ERREUR!\n Nom d'utilisateur ou Mot de passe non renseigné ",
-                    "Inane error",JOptionPane.ERROR_MESSAGE);
+                    "Erreur",JOptionPane.ERROR_MESSAGE);
                 }
                 
             }else{//connexion
@@ -553,6 +583,19 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 CreerModifierClient.setLocationRelativeTo(null);
                 CreerModifierClient.setTitle("Transport T'aou - Modification d'un client");
                 labelTitreCreerModifierClient.setText("Modification d'un client");
+                
+                Integer ligneSelectionne = tableClients.getSelectedRow();
+                if (ligneSelectionne != -1){
+                    champNom.setText(tableClients.getValueAt(ligneSelectionne, 0).toString());
+                    champPrenom.setText(tableClients.getValueAt(ligneSelectionne, 1).toString());
+                    champMobile.setText(tableClients.getValueAt(ligneSelectionne, 2).toString());
+                    champAdresse.setText(tableClients.getValueAt(ligneSelectionne, 3).toString());
+                }else{
+                    CreerModifierClient.setVisible(false);
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Aucune ligne n'a été selectionné",
+                    "Erreur",JOptionPane.ERROR_MESSAGE);
+                }
+                
                 break;
             case 1://rendez-vous
                 
@@ -612,35 +655,91 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             String mobile = champMobile.getText();
             String adresse = champAdresse.getText();
             
-            //récupère le dernier id+1 pour ajouter a la suite
-            Statement st=connexion.createStatement();
-            ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM clients;");
-            resultat.next();
-            int id = resultat.getInt("max")+1;
+            String titre = labelTitreCreerModifierClient.getText();
             
-            if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
-                 PreparedStatement pst = connexion.prepareStatement("Insert into clients values (?,?,?,?,?)");
-                 pst.setInt(1,id);
-                 pst.setString(2,nom);
-                 pst.setString(3,prenom);
-                 pst.setString(4,mobile);
-                 pst.setString(5,adresse);
-                 pst.execute();
+            if(titre.equals("Création d'un client")){//création d'un client
+                //récupère le dernier id+1 pour ajouter a la suite
+                Statement st=connexion.createStatement();
+                ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM clients;");
+                resultat.next();
+                int id = resultat.getInt("max")+1;
+            
+                if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
+                    PreparedStatement pst = connexion.prepareStatement("Insert into clients values (?,?,?,?,?)");
+                    pst.setInt(1,id);
+                    pst.setString(2,nom);
+                    pst.setString(3,prenom);
+                    pst.setString(4,mobile);
+                    pst.setString(5,adresse);
+                    pst.execute();
 
-                 CreerModifierClient.setVisible(false);
-                 afficheTableauClients();
-                 
-            }else{
+                    CreerModifierClient.setVisible(false);
+                    videTableauClients();
+                    afficheTableauClients();
+                    
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Client ajouter avec succès");
+                }else{
                 JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
-                "Inane error",JOptionPane.ERROR_MESSAGE);
-            }
-            
+                "Erreur",JOptionPane.ERROR_MESSAGE);
+                }
+            }else{//modification d'un client
+                Integer ligneSelectionne = tableClients.getSelectedRow();
+                String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
+                Integer idLigne = Integer.parseInt(idLigneChaine);
+               if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
+                PreparedStatement pst = connexion.prepareStatement("UPDATE clients SET nom = ?, prenom = ?, mobile = ?, adresse = ? WHERE id = ?");
+                pst.setString(1,nom);
+                pst.setString(2,prenom);
+                pst.setString(3,mobile);
+                pst.setString(4,adresse);
+                pst.setInt(5,idLigne);
+                pst.execute();
+
+                CreerModifierClient.setVisible(false);
+                videTableauClients();
+                afficheTableauClients();
+                
+                JOptionPane.showMessageDialog(MessageBienvenue, "Client Modifier avec succès");
+               }else{
+                JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
+                "Erreur",JOptionPane.ERROR_MESSAGE);
+               }
+            }    
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnValiderActionPerformed
+
+    private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
+        //supprimer le client de la ligne selectionné
+        Integer ligneSelectionne = tableClients.getSelectedRow();
+        String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
+        Integer idLigne = Integer.parseInt(idLigneChaine);
+        
+        try {
+            //chargement driver
+            Class.forName("org.postgresql.Driver");
+            //connexion bdd
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            
+            //requete de suppression
+            PreparedStatement pst = connexion.prepareStatement("DELETE FROM clients WHERE id = ?");
+            pst.setInt(1,idLigne);
+            pst.execute();
+            CreerModifierClient.setVisible(false);
+            videTableauClients();
+            afficheTableauClients();
+            JOptionPane.showMessageDialog(MessageBienvenue, "Client supprimer avec succès");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSupprimerActionPerformed
 
     /**
      * @param args the command line arguments
