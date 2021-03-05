@@ -161,6 +161,55 @@ public class fenetrePrincipal extends javax.swing.JFrame {
            tableClients.setValueAt("", i, 4);
        }
     }
+    
+    public void afficheTableauClientsFiltre(String recherche){
+        videTableauClients();
+         try {
+            //chargement driver
+            Class.forName("org.postgresql.Driver");
+            //connexion avec la base
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            
+            //requete
+
+            PreparedStatement pst = connexion.prepareStatement("SELECT * FROM clients WHERE nom LIKE ? ORDER BY nom ASC");
+            pst.setString(1,recherche + "%");
+
+            ResultSet resultat = pst.executeQuery();
+            
+            Integer i = 0;
+            
+            while(resultat.next()){
+                /*Integer nbLignes = tableClients.getRowCount();
+                if(i.equals(nbLignes)){
+                    
+                }*/
+                
+                Client client = new Client();
+                
+                client.setNom(resultat.getString("nom"));
+                client.setPrenom(resultat.getString("prenom"));
+                client.setMobile(resultat.getString("mobile"));
+                client.setAdresse(resultat.getString("adresse"));
+                client.setId(resultat.getInt("id"));
+                
+                tableClients.setValueAt(client.getNom(), i, 0);
+                tableClients.setValueAt(client.getPrenom(), i, 1);
+                tableClients.setValueAt(client.getMobile(), i, 2);
+                tableClients.setValueAt(client.getAdresse(), i, 3);
+                tableClients.setValueAt(client.getId(), i, 4);
+                i++;
+            }
+            tableClients.getColumnModel().getColumn(4).setMinWidth(0);
+            tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,6 +230,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         btnNouveau = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        champRecherche = new javax.swing.JTextField();
+        btnRechercher = new javax.swing.JButton();
         CreerModifierClient = new javax.swing.JFrame();
         labelTitreCreerModifierClient = new javax.swing.JLabel();
         labelNom = new javax.swing.JLabel();
@@ -278,7 +330,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addGap(35, 35, 35))
         );
 
@@ -292,7 +344,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 672, Short.MAX_VALUE)
+            .addGap(0, 612, Short.MAX_VALUE)
         );
 
         onglet.addTab("Rendez-vous", jPanel2);
@@ -305,7 +357,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 672, Short.MAX_VALUE)
+            .addGap(0, 612, Short.MAX_VALUE)
         );
 
         onglet.addTab("Calendrier", jPanel3);
@@ -331,18 +383,44 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Exporter en csv");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnRechercher.setText("Rechercher");
+        btnRechercher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRechercherActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pageAccueuilLayout = new javax.swing.GroupLayout(pageAccueuil.getContentPane());
         pageAccueuil.getContentPane().setLayout(pageAccueuilLayout);
         pageAccueuilLayout.setHorizontalGroup(
             pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pageAccueuilLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(onglet, javax.swing.GroupLayout.PREFERRED_SIZE, 1643, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnNouveau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSupprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnModifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pageAccueuilLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(onglet, javax.swing.GroupLayout.PREFERRED_SIZE, 1643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnNouveau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSupprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnModifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(pageAccueuilLayout.createSequentialGroup()
+                        .addGap(270, 270, 270)
+                        .addComponent(champRecherche, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRechercher)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pageAccueuilLayout.setVerticalGroup(
@@ -354,8 +432,16 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addComponent(btnModifier)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSupprimer)
+                .addGap(165, 165, 165)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(onglet, javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pageAccueuilLayout.createSequentialGroup()
+                .addGap(0, 19, Short.MAX_VALUE)
+                .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(champRecherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRechercher))
+                .addGap(18, 18, 18)
+                .addComponent(onglet, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         labelTitreCreerModifierClient.setText("Création/modification d'un client");
@@ -741,6 +827,21 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSupprimerActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnRechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechercherActionPerformed
+        
+        String recherche = champRecherche.getText();
+        
+        if(recherche.equalsIgnoreCase("")){
+            afficheTableauClients();
+        }else{
+            afficheTableauClientsFiltre(recherche);
+        }
+    }//GEN-LAST:event_btnRechercherActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -782,6 +883,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnLog;
     private javax.swing.JButton btnModifier;
     private javax.swing.JButton btnNouveau;
+    private javax.swing.JButton btnRechercher;
     private javax.swing.JButton btnSupprimer;
     private javax.swing.JButton btnValider;
     private javax.swing.JTextField champAdresse;
@@ -790,6 +892,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField champNom;
     private javax.swing.JTextField champNomUtilisateur;
     private javax.swing.JTextField champPrenom;
+    private javax.swing.JTextField champRecherche;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
