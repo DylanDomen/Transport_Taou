@@ -5,11 +5,13 @@
  */
 package com.mycompany.transport.taou;
 
+import com.mycompany.transport.taou.designPattern.Sujet;
+
 /**
  *
  * @author dylan
  */
-public class Client {
+public class Client extends Sujet{
     private Integer id;
     private String nom;
     private String prenom;
@@ -33,6 +35,7 @@ public class Client {
 
     public void setId(Integer id) {
         this.id = id;
+        
     }
 
     public String getNom() {
@@ -41,6 +44,7 @@ public class Client {
 
     public void setNom(String nom) {
         this.nom = nom;
+        this.notifierObservateur();
     }
 
     public String getPrenom() {
@@ -49,6 +53,7 @@ public class Client {
 
     public void setPrenom(String prenom) {
         this.prenom = prenom;
+        
     }
 
     public String getMobile() {
@@ -57,6 +62,7 @@ public class Client {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+        
     }
 
     public String getAdresse() {
@@ -65,6 +71,7 @@ public class Client {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+        
     }
 
     @Override

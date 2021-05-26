@@ -6,6 +6,7 @@
 package com.mycompany.transport.taou;
 
 
+import com.mycompany.transport.taou.designPattern.Observateur;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,18 +27,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author dylan
  */
-public class fenetrePrincipal extends javax.swing.JFrame {
+public class fenetrePrincipal extends javax.swing.JFrame{
 
     /**
      * Creates new form fenetrePrincipal
      */
     List<Client> listeClient; //1) on initialise une array list
     Integer nbLigneFiltre = 0;//nb d'enregistrement du tableau actuel
+    Client client;
+    Integer nbLigne;
     public fenetrePrincipal() {
         initComponents();
+        nbLigne = tableClients.getRowCount();
+        tableClients = new MaJtable();
+        client = new Client();
         premiereUtilisation();
     }
-    
+
     public void premiereUtilisation(){//fonction qui sert à vérifier si le logiciel possède déja un utilisateur ou si c'est une première utilisation
         // on vérifie si il y a un utilisateur dans la base ( pour lancer une connexion ou plutot une création )
         try {
@@ -300,6 +306,14 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
@@ -415,17 +429,16 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pageAccueuilLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(onglet, javax.swing.GroupLayout.PREFERRED_SIZE, 1643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(onglet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pageAccueuilLayout.createSequentialGroup()
-                                .addGap(39, 39, 39)
+                                .addGap(33, 33, 33)
                                 .addGroup(pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnNouveau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnSupprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnModifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(pageAccueuilLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnExportCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnExportCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(pageAccueuilLayout.createSequentialGroup()
                         .addGap(270, 270, 270)
                         .addComponent(champRecherche, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -647,7 +660,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         //on est dans le cas bouton nouveau
         Integer index = onglet.getSelectedIndex();
         switch(index) {
-            case 0://clients
+            case 0://client   
                 CreerModifierClient.setVisible(true);
                 CreerModifierClient.setBounds(0, 0, 1920, 1080);
                 CreerModifierClient.setLocationRelativeTo(null);
@@ -746,10 +759,24 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             Connection connexion;
             connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
             
-            String nom = champNom.getText();
+            /*String nom = champNom.getText();
             String prenom = champPrenom.getText();
             String mobile = champMobile.getText();
-            String adresse = champAdresse.getText();
+            String adresse = champAdresse.getText();*/
+            
+            Client client = new Client();
+            client.ajouterObservateur((MaJtable)tableClients);
+            
+            client.setNom(champNom.getText());
+            client.setPrenom(champPrenom.getText());
+            client.setMobile(champMobile.getText());
+            client.setAdresse(champAdresse.getText());
+            
+            String nom = client.getNom();
+            String prenom = client.getPrenom();
+            String mobile = client.getMobile();
+            String adresse = client.getAdresse();
+
             
             String titre = labelTitreCreerModifierClient.getText();
             
@@ -1000,4 +1027,5 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JFileChooser selecteurFichier;
     private javax.swing.JTable tableClients;
     // End of variables declaration//GEN-END:variables
+
 }
