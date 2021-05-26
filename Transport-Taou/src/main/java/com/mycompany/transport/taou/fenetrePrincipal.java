@@ -37,11 +37,11 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     Integer nbLigneFiltre = 0;//nb d'enregistrement du tableau actuel
     Client client;
     Integer nbLigne;
+    DefaultTableModel modelBase;
     public fenetrePrincipal() {
         initComponents();
         nbLigne = tableClients.getRowCount();
-
-        DefaultTableModel modelBase = (DefaultTableModel) tableClients.getModel();
+        modelBase = (DefaultTableModel) tableClients.getModel();
         tableClients = new MaJtable();
         tableClients.setModel(modelBase);   
         client = new Client();
@@ -171,12 +171,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     public void videTableauClients(){
        Integer nbLigne = tableClients.getRowCount();
        for(Integer i = 0; i< nbLigne;i++){
-           /*tableClients.setValueAt("", i, 0);
-           tableClients.setValueAt("", i, 1);
-           tableClients.setValueAt("", i, 2);
-           tableClients.setValueAt("", i, 3);
-           tableClients.setValueAt("", i, 4);*/
-           //============test
            tableClients.getModel().setValueAt("", i, 0);
            tableClients.getModel().setValueAt("", i, 1);
            tableClients.getModel().setValueAt("", i, 2);
@@ -291,6 +285,72 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
         tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -786,6 +846,11 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             String prenom = client.getPrenom();
             String mobile = client.getMobile();
             String adresse = client.getAdresse();
+
+            //ajouter une ligne en plus dans le tableau
+            Integer r = tableClients.getRowCount()+1;
+            modelBase.setRowCount(r);
+            tableClients.setModel(modelBase);
 
             
             String titre = labelTitreCreerModifierClient.getText();
