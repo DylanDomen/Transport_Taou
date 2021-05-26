@@ -6,6 +6,7 @@
 package com.mycompany.transport.taou;
 
 
+import com.mycompany.transport.taou.designPattern.ConnexionBase;
 import com.mycompany.transport.taou.designPattern.Observateur;
 import java.io.File;
 import java.io.FileWriter;
@@ -51,6 +52,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     public void premiereUtilisation(){//fonction qui sert à vérifier si le logiciel possède déja un utilisateur ou si c'est une première utilisation
         // on vérifie si il y a un utilisateur dans la base ( pour lancer une connexion ou plutot une création )
         try {
+            /*remplacer du au singleton=======================================================
             //chargement driver
             Class.forName("org.postgresql.Driver");
             
@@ -62,6 +64,9 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             //requete
             Statement st = connexion.createStatement();
             ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM utilisateur;");
+            */
+            ConnexionBase connexionBase = ConnexionBase.recupInstance();
+            ResultSet resultat = connexionBase.requeteRecupereTout("SELECT MAX(id) FROM utilisateur;");
             resultat.next();
             Integer id = resultat.getInt("max");
             if(id != 0){
@@ -79,8 +84,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 
             }
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -88,6 +91,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     
     public void connexion(String nomUtilisateur, String motDePasse){
         try {
+            
             //chargement driver
             Class.forName("org.postgresql.Driver");
             
@@ -126,6 +130,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     
     public void afficheTableauClients(){
         try {
+            /*================rempplacer => singleton
             //chargement driver
             Class.forName("org.postgresql.Driver");
             //connexion avec la base
@@ -135,7 +140,9 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             //requete
             Statement st = connexion.createStatement();
             ResultSet resultat = st.executeQuery("Select * from clients");
-            
+            */
+            ConnexionBase connexionBase = ConnexionBase.recupInstance();
+            ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
             Integer i = 0;
             
             while(resultat.next()){
@@ -161,8 +168,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             tableClients.getColumnModel().getColumn(4).setMinWidth(0);
             tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -951,7 +956,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         
         if(nbLigneFiltre.equals(0)){
             try {
+            
             //export de tout les clients
+            
+            /*
             Class.forName("org.postgresql.Driver");
             
             //connexion avec la base
@@ -961,14 +969,15 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             //requete
             Statement st = connexion.createStatement();
             ResultSet resultat = st.executeQuery("Select * from clients");
+            */
+            ConnexionBase connexionBase = ConnexionBase.recupInstance();
+            ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
             Integer nbEnregistrement = 0;
              while(resultat.next()){
                  nbEnregistrement++;
              }
              nbLigneFiltre = nbEnregistrement;
              
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }              
