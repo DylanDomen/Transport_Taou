@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -39,7 +40,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     public fenetrePrincipal() {
         initComponents();
         nbLigne = tableClients.getRowCount();
+
+        DefaultTableModel modelBase = (DefaultTableModel) tableClients.getModel();
         tableClients = new MaJtable();
+        tableClients.setModel(modelBase);   
         client = new Client();
         premiereUtilisation();
     }
@@ -167,11 +171,17 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     public void videTableauClients(){
        Integer nbLigne = tableClients.getRowCount();
        for(Integer i = 0; i< nbLigne;i++){
-           tableClients.setValueAt("", i, 0);
+           /*tableClients.setValueAt("", i, 0);
            tableClients.setValueAt("", i, 1);
            tableClients.setValueAt("", i, 2);
            tableClients.setValueAt("", i, 3);
-           tableClients.setValueAt("", i, 4);
+           tableClients.setValueAt("", i, 4);*/
+           //============test
+           tableClients.getModel().setValueAt("", i, 0);
+           tableClients.getModel().setValueAt("", i, 1);
+           tableClients.getModel().setValueAt("", i, 2);
+           tableClients.getModel().setValueAt("", i, 3);
+           tableClients.getModel().setValueAt("", i, 4);
        }
     }
     
