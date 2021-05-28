@@ -44,7 +44,7 @@ public class Client extends Sujet{
 
     public void setNom(String nom) {
         this.nom = nom;
-        this.notifierObservateur();
+        //this.notifierObservateur();
     }
 
     public String getPrenom() {

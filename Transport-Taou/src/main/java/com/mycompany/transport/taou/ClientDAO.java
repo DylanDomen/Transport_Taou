@@ -64,6 +64,8 @@ public class ClientDAO extends Sujet implements Observateur{
 
     @Override
     public void detecter() {
-        System.out.println("TEST OBS");
+        System.out.println("TEST OBS DAO");
+        //videTableauClients();
+        //afficheTableauClients();
     }
 }

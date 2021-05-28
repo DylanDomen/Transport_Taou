@@ -849,7 +849,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             String adresse = champAdresse.getText();*/
             
             Client client = new Client();
-            client.ajouterObservateur((MaJtable)tableClients);
+            //client.ajouterObservateur((MaJtable)tableClients);
             
             client.setNom(champNom.getText());
             client.setPrenom(champPrenom.getText());
@@ -871,7 +871,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             
             if(titre.equals("Création d'un client")){//création d'un client
                 //récupère le dernier id+1 pour ajouter a la suite
-                Statement st=connexion.createStatement();
+                /*Statement st=connexion.createStatement();
                 ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM clients;");
                 resultat.next();
                 int id = resultat.getInt("max")+1;
@@ -893,7 +893,13 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 }else{
                 JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
                 "Erreur",JOptionPane.ERROR_MESSAGE);
-                } 
+                }*/
+                ClientDAO test = new ClientDAO();
+                test.ajouterObservateur((MaJtable)tableClients);
+                test.CreerClient(client);
+                CreerModifierClient.setVisible(false); 
+                videTableauClients();
+                afficheTableauClients();
             }else{//modification d'un client
                 Integer ligneSelectionne = tableClients.getSelectedRow();
                 String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
