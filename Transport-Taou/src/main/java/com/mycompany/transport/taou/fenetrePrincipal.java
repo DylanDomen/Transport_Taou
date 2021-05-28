@@ -39,6 +39,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     Client client;
     Integer nbLigne;
     DefaultTableModel modelBase;
+    
     public fenetrePrincipal() {
         initComponents();
         nbLigne = tableClients.getRowCount();
@@ -424,7 +425,9 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1638, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1628, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,6 +558,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champNomActionPerformed(evt);
+            }
+        });
+
+        champAdresse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                champAdresseActionPerformed(evt);
             }
         });
 
@@ -875,7 +884,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                     pst.setString(4,mobile);
                     pst.setString(5,adresse);
                     pst.execute();
-
+            
                     CreerModifierClient.setVisible(false);
                     videTableauClients();
                     afficheTableauClients();
@@ -884,7 +893,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 }else{
                 JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
                 "Erreur",JOptionPane.ERROR_MESSAGE);
-                }
+                } 
             }else{//modification d'un client
                 Integer ligneSelectionne = tableClients.getSelectedRow();
                 String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
@@ -897,7 +906,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 pst.setString(4,adresse);
                 pst.setInt(5,idLigne);
                 pst.execute();
-
+                
                 CreerModifierClient.setVisible(false);
                 videTableauClients();
                 afficheTableauClients();
@@ -1040,6 +1049,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             nbLigneFiltre = afficheTableauClientsFiltre(recherche);
         }
     }//GEN-LAST:event_btnRechercherActionPerformed
+
+    private void champAdresseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champAdresseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_champAdresseActionPerformed
 
     /**
      * @param args the command line arguments

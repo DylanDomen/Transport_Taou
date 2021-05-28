@@ -17,7 +17,7 @@ public class Client extends Sujet{
     private String prenom;
     private String mobile;
     private String adresse;
-
+    
     public Client(Integer id, String nom, String prenom, String mobile, String adresse) {
         this.id = id;
         this.nom = nom;
