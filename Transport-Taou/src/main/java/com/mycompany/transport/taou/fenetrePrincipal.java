@@ -22,6 +22,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,13 +41,16 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     Client client;
     Integer nbLigne;
     DefaultTableModel modelBase;
+    ListSelectionModel selectionModelBase;
     
     public fenetrePrincipal() {
         initComponents();
         nbLigne = tableClients.getRowCount();
         modelBase = (DefaultTableModel) tableClients.getModel();
+        selectionModelBase = (ListSelectionModel) tableClients.getSelectionModel();
         tableClients = new MaJtable();
-        tableClients.setModel(modelBase);   
+        tableClients.setModel(modelBase);  
+        tableClients.setSelectionModel(selectionModelBase);
         client = new Client();
         premiereUtilisation();
     }
@@ -280,7 +285,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
         pageAccueuil.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         pageAccueuil.setTitle("Transport T'aou - Accueil");
-        pageAccueuil.setPreferredSize(new java.awt.Dimension(1000, 700));
         pageAccueuil.setSize(new java.awt.Dimension(1920, 1080));
 
         onglet.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -412,6 +416,11 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             }
         });
         tableClients.getTableHeader().setReorderingAllowed(false);
+        tableClients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableClientsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableClients);
         if (tableClients.getColumnModel().getColumnCount() > 0) {
             tableClients.getColumnModel().getColumn(0).setResizable(false);
@@ -777,7 +786,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 CreerModifierClient.setTitle("Transport T'aou - Modification d'un client");
                 labelTitreCreerModifierClient.setText("Modification d'un client");
                 
+                
+          
                 Integer ligneSelectionne = tableClients.getSelectedRow();
+                
                 if (ligneSelectionne != -1){
                     champNom.setText(tableClients.getValueAt(ligneSelectionne, 0).toString());
                     champPrenom.setText(tableClients.getValueAt(ligneSelectionne, 1).toString());
@@ -812,6 +824,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 btnNouveau.setText("Nouveau Client");
                 btnModifier.setText("Modifier Client");
                 btnSupprimer.setText("Supprimer Client");
+                btnExportCSV.setVisible(true);
                 break;
             case 1://rendez-vous
                 btnNouveau.setVisible(true);
@@ -820,11 +833,13 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 btnNouveau.setText("Nouveau Rendez-vous");
                 btnModifier.setText("Modifier Rendez-vous");
                 btnSupprimer.setText("Supprimer Rendez-vous");
+                btnExportCSV.setVisible(true);
                 break;
             case 2://calendrier
                 btnNouveau.setVisible(false);
                 btnModifier.setVisible(false);
                 btnSupprimer.setVisible(false);
+                btnExportCSV.setVisible(false);
                 break;
             default:
                 
@@ -1024,7 +1039,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 for(Client client : listeClient){
                     resultat += client + "\n";
                 }
-        
+        System.out.println(resultat);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier CSV", "csv");
         selecteurFichier.setFileFilter(filter);
         int returnval = selecteurFichier.showSaveDialog(this);
@@ -1059,6 +1074,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     private void champAdresseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champAdresseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_champAdresseActionPerformed
+
+    private void tableClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableClientsMouseClicked
 
     /**
      * @param args the command line arguments
