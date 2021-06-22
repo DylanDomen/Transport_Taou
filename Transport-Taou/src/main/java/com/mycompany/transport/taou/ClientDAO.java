@@ -15,12 +15,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author dylan
  */
-public class ClientDAO extends Sujet implements Observateur{
+public class ClientDAO extends Sujet{
 
     public ClientDAO() {
         
@@ -51,7 +52,7 @@ public class ClientDAO extends Sujet implements Observateur{
                 pst.setString(5,client.getAdresse());
                 pst.execute();
                 
-                this.notifierObservateur();
+                this.notifierObservateur("Creation");
             } 
             
             
@@ -62,10 +63,5 @@ public class ClientDAO extends Sujet implements Observateur{
         }
     }
 
-    @Override
-    public void detecter() {
-        System.out.println("TEST OBS DAO");
-        //videTableauClients();
-        //afficheTableauClients();
-    }
+    
 }

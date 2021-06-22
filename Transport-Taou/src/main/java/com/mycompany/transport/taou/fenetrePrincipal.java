@@ -148,6 +148,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             Statement st = connexion.createStatement();
             ResultSet resultat = st.executeQuery("Select * from clients");
             */
+            
             ConnexionBase connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
             Integer i = 0;
@@ -973,8 +974,8 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 test.ajouterObservateur((MaJtable)tableClients);
                 test.CreerClient(client);
                 CreerModifierClient.setVisible(false); 
-                videTableauClients();
-                afficheTableauClients();
+                //videTableauClients();
+                //afficheTableauClients();
             }else{//modification d'un client
                 Integer ligneSelectionne = tableClients.getSelectedRow();
                 String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();

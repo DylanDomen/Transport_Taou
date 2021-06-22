@@ -25,11 +25,24 @@ public class MaJtable extends javax.swing.JTable implements Observateur{
     MaJtable(Client client) {
         this.client = client;
     } 
-
+    
+    
     @Override
-    public void detecter() {
-        System.out.println("TEST OBS");
+    public void detecter(String mode) {
+        
+        fenetrePrincipal fenPrincipal = new fenetrePrincipal();
+        
+        switch(mode) {
+            case "Creation":
+                JOptionPane.showMessageDialog(fenPrincipal, "Client Creer avec succès");
+        }
+                
+        
+        fenPrincipal.videTableauClients();
+        fenPrincipal.afficheTableauClients();
     }
+
+    
 
     
     

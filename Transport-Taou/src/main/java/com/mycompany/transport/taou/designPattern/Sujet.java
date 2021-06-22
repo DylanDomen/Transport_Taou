@@ -28,9 +28,9 @@ public class Sujet {
         collectionObservateur.remove(o);
     }
     
-    public void notifierObservateur(){
+    public void notifierObservateur(String mode){
         for(Observateur observateur : collectionObservateur){
-            observateur.detecter();
+            observateur.detecter(mode);
         }
     }
     

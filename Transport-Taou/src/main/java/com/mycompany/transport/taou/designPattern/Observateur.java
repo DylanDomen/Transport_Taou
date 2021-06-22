@@ -10,5 +10,5 @@ package com.mycompany.transport.taou.designPattern;
  * @author dylan
  */
 public interface Observateur {
-    public void detecter();
+    public void detecter(String mode);
 }
