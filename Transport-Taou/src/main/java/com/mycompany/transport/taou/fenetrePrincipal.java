@@ -42,6 +42,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     Integer nbLigne;
     DefaultTableModel modelBase;
     ListSelectionModel selectionModelBase;
+    boolean confirme;
     
     public fenetrePrincipal() {
         initComponents();
@@ -276,7 +277,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         btnValider = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        btnAnnule = new javax.swing.JButton();
         selecteurFichier = new javax.swing.JFileChooser();
+        MessageConfirmation = new javax.swing.JDialog();
+        BtnOuiConfirmation = new javax.swing.JButton();
+        BtnNonConfirmation = new javax.swing.JButton();
+        TexteMessageConfirmation = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         champNomUtilisateur = new javax.swing.JTextField();
@@ -587,6 +593,13 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
         jLabel5.setText("Les champs qui se succèdent de \"*\" sont facultatif");
 
+        btnAnnule.setText("Annuler");
+        btnAnnule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnnuleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout CreerModifierClientLayout = new javax.swing.GroupLayout(CreerModifierClient.getContentPane());
         CreerModifierClient.getContentPane().setLayout(CreerModifierClientLayout);
         CreerModifierClientLayout.setHorizontalGroup(
@@ -607,11 +620,14 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                         .addGap(25, 25, 25)
                         .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(labelTitreCreerModifierClient)
-                            .addComponent(champNom)
+                            .addComponent(champNom, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                             .addComponent(champPrenom)
                             .addComponent(champMobile)
-                            .addComponent(champAdresse)
-                            .addComponent(btnValider, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))))
+                            .addComponent(champAdresse)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CreerModifierClientLayout.createSequentialGroup()
+                        .addComponent(btnValider, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAnnule, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(492, Short.MAX_VALUE))
         );
         CreerModifierClientLayout.setVerticalGroup(
@@ -640,11 +656,55 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                     .addGroup(CreerModifierClientLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)))
-                .addGap(55, 55, 55)
-                .addComponent(btnValider)
-                .addGap(53, 53, 53)
+                .addGap(18, 18, 18)
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnValider)
+                    .addComponent(btnAnnule))
+                .addGap(90, 90, 90)
                 .addComponent(jLabel5)
                 .addContainerGap(95, Short.MAX_VALUE))
+        );
+
+        BtnOuiConfirmation.setText("jButton1");
+        BtnOuiConfirmation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnOuiConfirmationActionPerformed(evt);
+            }
+        });
+
+        BtnNonConfirmation.setText("jButton1");
+        BtnNonConfirmation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnNonConfirmationActionPerformed(evt);
+            }
+        });
+
+        TexteMessageConfirmation.setText("jLabel3");
+
+        javax.swing.GroupLayout MessageConfirmationLayout = new javax.swing.GroupLayout(MessageConfirmation.getContentPane());
+        MessageConfirmation.getContentPane().setLayout(MessageConfirmationLayout);
+        MessageConfirmationLayout.setHorizontalGroup(
+            MessageConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MessageConfirmationLayout.createSequentialGroup()
+                .addGap(112, 112, 112)
+                .addGroup(MessageConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TexteMessageConfirmation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(MessageConfirmationLayout.createSequentialGroup()
+                        .addComponent(BtnOuiConfirmation)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnNonConfirmation)))
+                .addContainerGap(136, Short.MAX_VALUE))
+        );
+        MessageConfirmationLayout.setVerticalGroup(
+            MessageConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MessageConfirmationLayout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(TexteMessageConfirmation, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(MessageConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnNonConfirmation)
+                    .addComponent(BtnOuiConfirmation))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -947,31 +1007,15 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
     private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
         //supprimer le client de la ligne selectionné
-        Integer ligneSelectionne = tableClients.getSelectedRow();
-        String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
-        Integer idLigne = Integer.parseInt(idLigneChaine);
         
-        try {
-            //chargement driver
-            Class.forName("org.postgresql.Driver");
-            //connexion bdd
-            Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
-            //requete de suppression
-            PreparedStatement pst = connexion.prepareStatement("DELETE FROM clients WHERE id = ?");
-            pst.setInt(1,idLigne);
-            pst.execute();
-            CreerModifierClient.setVisible(false);
-            videTableauClients();
-            afficheTableauClients();
-            JOptionPane.showMessageDialog(MessageBienvenue, "Client supprimer avec succès");
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        MessageConfirmation.setVisible(true);
+        MessageConfirmation.setBounds(0, 0, 400, 300);
+        MessageConfirmation.setLocationRelativeTo(null);
+        MessageConfirmation.setTitle("Transport T'aou - Confirmation");
+        TexteMessageConfirmation.setText("êtes vous sure de vouloir supprimer ce client ? ");
+        BtnOuiConfirmation.setText("Oui");
+        BtnNonConfirmation.setText("Non");
     }//GEN-LAST:event_btnSupprimerActionPerformed
 
     private void btnExportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportCSVActionPerformed
@@ -1079,6 +1123,72 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_tableClientsMouseClicked
 
+    private void BtnOuiConfirmationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnOuiConfirmationActionPerformed
+        Integer ligneSelectionne = tableClients.getSelectedRow();
+        String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
+        Integer idLigne = Integer.parseInt(idLigneChaine);
+        
+        
+           MessageConfirmation.setVisible(false);
+           try {
+              //chargement driver
+              Class.forName("org.postgresql.Driver");
+              //connexion bdd
+              Connection connexion;
+              connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+
+              //requete de suppression
+              PreparedStatement pst = connexion.prepareStatement("DELETE FROM clients WHERE id = ?");
+              pst.setInt(1,idLigne);
+              pst.execute();
+              CreerModifierClient.setVisible(false);
+              videTableauClients();
+              afficheTableauClients();
+              JOptionPane.showMessageDialog(MessageBienvenue, "Client supprimer avec succès");
+
+          } catch (ClassNotFoundException ex) {
+              Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (SQLException ex) {
+              Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+          }  
+        
+            
+        
+        
+    }//GEN-LAST:event_BtnOuiConfirmationActionPerformed
+
+    private void BtnNonConfirmationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNonConfirmationActionPerformed
+        
+        MessageConfirmation.setVisible(false);
+        JOptionPane.showMessageDialog(MessageBienvenue, "La suppression annulé");
+    }//GEN-LAST:event_BtnNonConfirmationActionPerformed
+
+    private void btnAnnuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnuleActionPerformed
+        
+        Integer index = onglet.getSelectedIndex();
+        String titre = labelTitreCreerModifierClient.getText();;
+        CreerModifierClient.setVisible(false);
+        
+        switch(index) {
+            case 0://clients
+                if(titre.equals("Création d'un client")){
+                   JOptionPane.showMessageDialog(MessageBienvenue, "Création d'un client annulé"); 
+                }else{
+                   JOptionPane.showMessageDialog(MessageBienvenue, "Modification du client annulé"); 
+                }
+                break;
+            case 1://rendez-vous
+                
+                break;
+            case 2://calendrier
+                
+                break;
+            default:
+                
+        }
+        
+    }//GEN-LAST:event_btnAnnuleActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1115,8 +1225,13 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnNonConfirmation;
+    private javax.swing.JButton BtnOuiConfirmation;
     private javax.swing.JFrame CreerModifierClient;
     private javax.swing.JOptionPane MessageBienvenue;
+    private javax.swing.JDialog MessageConfirmation;
+    private javax.swing.JLabel TexteMessageConfirmation;
+    private javax.swing.JButton btnAnnule;
     private javax.swing.JButton btnExportCSV;
     private javax.swing.JButton btnLog;
     private javax.swing.JButton btnModifier;
