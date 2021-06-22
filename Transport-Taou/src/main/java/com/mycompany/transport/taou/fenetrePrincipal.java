@@ -203,7 +203,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             
             //requete
 
-            PreparedStatement pst = connexion.prepareStatement("SELECT * FROM clients WHERE nom LIKE ? ORDER BY nom ASC");
+            PreparedStatement pst = connexion.prepareStatement("SELECT * FROM clients WHERE nom ILIKE ? ORDER BY nom ASC");
             pst.setString(1,recherche + "%");
 
             ResultSet resultat = pst.executeQuery();
