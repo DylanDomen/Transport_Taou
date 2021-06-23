@@ -62,6 +62,5 @@ public class ClientDAO extends Sujet{
             Logger.getLogger(ClientDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    
+ 
 }

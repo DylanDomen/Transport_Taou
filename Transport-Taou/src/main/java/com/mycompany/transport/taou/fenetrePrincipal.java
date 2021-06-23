@@ -59,19 +59,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     public void premiereUtilisation(){//fonction qui sert à vérifier si le logiciel possède déja un utilisateur ou si c'est une première utilisation
         // on vérifie si il y a un utilisateur dans la base ( pour lancer une connexion ou plutot une création )
         try {
-            /*remplacer du au singleton=======================================================
-            //chargement driver
-            Class.forName("org.postgresql.Driver");
-            
-            //connexion avec la base
-            
-            Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
-            //requete
-            Statement st = connexion.createStatement();
-            ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM utilisateur;");
-            */
             ConnexionBase connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("SELECT MAX(id) FROM utilisateur;");
             resultat.next();
@@ -88,9 +75,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                
                 this.setTitle("Transport T'aou - Inscription");
                 btnLog.setText("S'inscrire");
-                
-            }
-            
+            }            
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -136,28 +121,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     }
     
     public void afficheTableauClients(){
-        try {
-            /*================rempplacer => singleton
-            //chargement driver
-            Class.forName("org.postgresql.Driver");
-            //connexion avec la base
-            Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
-            //requete
-            Statement st = connexion.createStatement();
-            ResultSet resultat = st.executeQuery("Select * from clients");
-            */
-            
+        try {      
             ConnexionBase connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
             Integer i = 0;
             
             while(resultat.next()){
-                /*Integer nbLignes = tableClients.getRowCount();
-                if(i.equals(nbLignes)){
-                    
-                }*/
                 Client client = new Client();
                 
                 client.setNom(resultat.getString("nom"));
@@ -180,7 +149,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     public void videTableauClients(){
        Integer nbLigne = tableClients.getRowCount();
        for(Integer i = 0; i< nbLigne;i++){
@@ -190,8 +158,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
            tableClients.getModel().setValueAt("", i, 3);
            tableClients.getModel().setValueAt("", i, 4);
        }
-    }
-    
+    }    
     public Integer afficheTableauClientsFiltre(String recherche){
         videTableauClients();
         Integer i = 0;
@@ -200,23 +167,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             Class.forName("org.postgresql.Driver");
             //connexion avec la base
             Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");           
             //requete
-
             PreparedStatement pst = connexion.prepareStatement("SELECT * FROM clients WHERE nom ILIKE ? ORDER BY nom ASC");
             pst.setString(1,recherche + "%");
-
-            ResultSet resultat = pst.executeQuery();
-            
-            
-            
+            ResultSet resultat = pst.executeQuery();          
             while(resultat.next()){
-                /*Integer nbLignes = tableClients.getRowCount();
-                if(i.equals(nbLignes)){
-                    
-                }*/
-                
                 Client client = new Client();
                 
                 client.setNom(resultat.getString("nom"));
@@ -258,6 +214,8 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnNouveau = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
@@ -454,15 +412,153 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
         onglet.addTab("Clients", jPanel1);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nom", "Type", "Date Départ", "Heure Départ", "Lieu Départ", "Lieu Destination", "Date Retour", "Heure Retour", "Nombre De Personnes", "Prix", "Moyen De Paiment", "État"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(8).setResizable(false);
+            jTable1.getColumnModel().getColumn(9).setResizable(false);
+            jTable1.getColumnModel().getColumn(10).setResizable(false);
+            jTable1.getColumnModel().getColumn(11).setResizable(false);
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1638, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1638, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
         );
 
         onglet.addTab("Rendez-vous", jPanel2);
@@ -658,9 +754,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)))
                 .addGap(18, 18, 18)
-                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnValider)
-                    .addComponent(btnAnnule))
+                .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAnnule)
+                    .addGroup(CreerModifierClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnValider)))
                 .addGap(90, 90, 90)
                 .addComponent(jLabel5)
                 .addContainerGap(95, Short.MAX_VALUE))
@@ -769,15 +866,10 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         
         try {
             //chargement driver
-            Class.forName("org.postgresql.Driver");
-            
+            Class.forName("org.postgresql.Driver");            
             //connexion bdd
             Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
-            // Hashage d'un mot de passe
-            //String hashed = BCrypt.hashpw(motDePasse,BCrypt.gensalt());
-
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");           
             if(etatBTN == "S'inscrire"){
                 //on lui créer un compte utilisateur
                 if(!nomUtilisateur.equals("") && !motDePasse.equals("")){
@@ -793,8 +885,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 }else{
                     JOptionPane.showMessageDialog(MessageBienvenue, "ERREUR!\n Nom d'utilisateur ou Mot de passe non renseigné ",
                     "Erreur",JOptionPane.ERROR_MESSAGE);
-                }
-                
+                }              
             }else{//connexion
                 //on test si le nom d'utilisateur + mot de passe correspondent au compte de la base
                 connexion(nomUtilisateur,motDePasse);  
@@ -803,11 +894,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-            //connexion avec la base
-            
-            
+        }               
     }//GEN-LAST:event_btnLogActionPerformed
 
     private void btnNouveauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNouveauActionPerformed
@@ -825,14 +912,11 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 champMobile.setText("");
                 champAdresse.setText("");
                 break;
-            case 1://rendez-vous
-                
+            case 1://rendez-vous               
                 break;
-            case 2://calendrier
-                
+            case 2://calendrier               
                 break;
-            default:
-                
+            default:           
         }
     }//GEN-LAST:event_btnNouveauActionPerformed
 
@@ -847,10 +931,8 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 CreerModifierClient.setTitle("Transport T'aou - Modification d'un client");
                 labelTitreCreerModifierClient.setText("Modification d'un client");
                 
-                
-          
                 Integer ligneSelectionne = tableClients.getSelectedRow();
-                
+               
                 if (ligneSelectionne != -1){
                     champNom.setText(tableClients.getValueAt(ligneSelectionne, 0).toString());
                     champPrenom.setText(tableClients.getValueAt(ligneSelectionne, 1).toString());
@@ -861,16 +943,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                     JOptionPane.showMessageDialog(MessageBienvenue, "Aucune ligne n'a été selectionné",
                     "Erreur",JOptionPane.ERROR_MESSAGE);
                 }
-                
                 break;
             case 1://rendez-vous
-                
                 break;
             case 2://calendrier
-                
                 break;
-            default:
-                
+            default:    
         }
     }//GEN-LAST:event_btnModifierActionPerformed
 
@@ -918,12 +996,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             //connexion bdd
             Connection connexion;
             connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
-            /*String nom = champNom.getText();
-            String prenom = champPrenom.getText();
-            String mobile = champMobile.getText();
-            String adresse = champAdresse.getText();*/
-            
+
             Client client = new Client();
             //client.ajouterObservateur((MaJtable)tableClients);
             
@@ -941,41 +1014,16 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             Integer r = tableClients.getRowCount()+1;
             modelBase.setRowCount(r);
             tableClients.setModel(modelBase);
-
-            
+          
             String titre = labelTitreCreerModifierClient.getText();
             
             if(titre.equals("Création d'un client")){//création d'un client
-                //récupère le dernier id+1 pour ajouter a la suite
-                /*Statement st=connexion.createStatement();
-                ResultSet resultat=st.executeQuery("SELECT MAX(id) FROM clients;");
-                resultat.next();
-                int id = resultat.getInt("max")+1;
-            
-                if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
-                    PreparedStatement pst = connexion.prepareStatement("Insert into clients values (?,?,?,?,?)");
-                    pst.setInt(1,id);
-                    pst.setString(2,nom);
-                    pst.setString(3,prenom);
-                    pst.setString(4,mobile);
-                    pst.setString(5,adresse);
-                    pst.execute();
-            
-                    CreerModifierClient.setVisible(false);
-                    videTableauClients();
-                    afficheTableauClients();
-                    
-                    JOptionPane.showMessageDialog(MessageBienvenue, "Client ajouter avec succès");
-                }else{
-                JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
-                "Erreur",JOptionPane.ERROR_MESSAGE);
-                }*/
+                
                 ClientDAO test = new ClientDAO();
                 test.ajouterObservateur((MaJtable)tableClients);
                 test.CreerClient(client);
                 CreerModifierClient.setVisible(false); 
-                //videTableauClients();
-                //afficheTableauClients();
+
             }else{//modification d'un client
                 Integer ligneSelectionne = tableClients.getSelectedRow();
                 String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
@@ -1008,8 +1056,6 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
     private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
         //supprimer le client de la ligne selectionné
-        
-        
         MessageConfirmation.setVisible(true);
         MessageConfirmation.setBounds(0, 0, 400, 300);
         MessageConfirmation.setLocationRelativeTo(null);
@@ -1028,23 +1074,9 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         Integer id;
         listeClient = new ArrayList<Client>(); //  on instancie
         
-        
         if(nbLigneFiltre.equals(0)){
             try {
             
-            //export de tout les clients
-            
-            /*
-            Class.forName("org.postgresql.Driver");
-            
-            //connexion avec la base
-            Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
-            //requete
-            Statement st = connexion.createStatement();
-            ResultSet resultat = st.executeQuery("Select * from clients");
-            */
             ConnexionBase connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
             Integer nbEnregistrement = 0;
@@ -1057,9 +1089,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }              
         }
-        
-        
-        
+
         for(Integer i = 0; i< nbLigneFiltre;i++){
            
            nom = tableClients.getValueAt(i, 0).toString();
@@ -1100,13 +1130,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             } catch (IOException ex) {
                 Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
+        }       
         listeClient.clear();
     }//GEN-LAST:event_btnExportCSVActionPerformed
 
     private void btnRechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechercherActionPerformed
-        
+      
         String recherche = champRecherche.getText();
         
         if(recherche.equalsIgnoreCase("")){
@@ -1128,8 +1157,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         Integer ligneSelectionne = tableClients.getSelectedRow();
         String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
         Integer idLigne = Integer.parseInt(idLigneChaine);
-        
-        
+
            MessageConfirmation.setVisible(false);
            try {
               //chargement driver
@@ -1151,11 +1179,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
               Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
           } catch (SQLException ex) {
               Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-          }  
-        
-            
-        
-        
+          }   
     }//GEN-LAST:event_BtnOuiConfirmationActionPerformed
 
     private void BtnNonConfirmationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNonConfirmationActionPerformed
@@ -1178,16 +1202,12 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                    JOptionPane.showMessageDialog(MessageBienvenue, "Modification du client annulé"); 
                 }
                 break;
-            case 1://rendez-vous
-                
+            case 1://rendez-vous     
                 break;
             case 2://calendrier
-                
                 break;
-            default:
-                
-        }
-        
+            default:         
+        }  
     }//GEN-LAST:event_btnAnnuleActionPerformed
 
     /**
@@ -1255,6 +1275,8 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelAdresse;
     private javax.swing.JLabel labelMobile;
     private javax.swing.JLabel labelNom;
