@@ -5,12 +5,12 @@
  */
 package com.mycompany.transport.taou;
 
-
 import com.mycompany.transport.taou.designPattern.ConnexionBase;
 import com.mycompany.transport.taou.designPattern.Observateur;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
@@ -26,12 +26,13 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.w3c.dom.Text;
 
 /**
  *
  * @author dylan
  */
-public class fenetrePrincipal extends javax.swing.JFrame{
+public class fenetrePrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form fenetrePrincipal
@@ -43,98 +44,99 @@ public class fenetrePrincipal extends javax.swing.JFrame{
     DefaultTableModel modelBase;
     ListSelectionModel selectionModelBase;
     boolean confirme;
-    
+    ConnexionBase connexionBase;
+
     public fenetrePrincipal() {
         initComponents();
         nbLigne = tableClients.getRowCount();
         modelBase = (DefaultTableModel) tableClients.getModel();
         selectionModelBase = (ListSelectionModel) tableClients.getSelectionModel();
         tableClients = new MaJtable();
-        tableClients.setModel(modelBase);  
+        tableClients.setModel(modelBase);
         tableClients.setSelectionModel(selectionModelBase);
         client = new Client();
         premiereUtilisation();
     }
 
-    public void premiereUtilisation(){//fonction qui sert à vérifier si le logiciel possède déja un utilisateur ou si c'est une première utilisation
+    public void premiereUtilisation() {//fonction qui sert à vérifier si le logiciel possède déja un utilisateur ou si c'est une première utilisation
         // on vérifie si il y a un utilisateur dans la base ( pour lancer une connexion ou plutot une création )
         try {
-            ConnexionBase connexionBase = ConnexionBase.recupInstance();
+            connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("SELECT MAX(id) FROM utilisateur;");
             resultat.next();
             Integer id = resultat.getInt("max");
-            if(id != 0){
+            if (id != 0) {
                 //il y a un utilisateur : donc on va lancer une connexion et non une création
                 btnLog.setText("Se Connecter");
                 this.setTitle("Transport T'aou - Connexion");
-            }else{
+            } else {
                 //il n'y a pas d'utilisateur : donc on va lancer une première inscription
                 JOptionPane.showMessageDialog(MessageBienvenue, "Bienvenue sur Transport T'aou ! \n Il s'agit de votre première utilisation."
-                + "\n Afin que vos données sur Transport T'aou ne soient accessible que par vous même.\nVeuillez vous inscrire en cliquant sur OK",
-                "Inane warning",JOptionPane.WARNING_MESSAGE);
-               
+                        + "\n Afin que vos données sur Transport T'aou ne soient accessible que par vous même.\nVeuillez vous inscrire en cliquant sur OK",
+                        "Inane warning", JOptionPane.WARNING_MESSAGE);
+
                 this.setTitle("Transport T'aou - Inscription");
                 btnLog.setText("S'inscrire");
-            }            
+            }
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void connexion(String nomUtilisateur, String motDePasse){
+
+    public void connexion(String nomUtilisateur, String motDePasse) {
         try {
-            
+
             //chargement driver
             Class.forName("org.postgresql.Driver");
-            
+
             //connexion avec la base
             Connection connexion;
             connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
-            
+
             //requete
             PreparedStatement pst;
             pst = connexion.prepareStatement("SELECT * FROM utilisateur WHERE id = ?");
-            pst.setInt(1,1);
-           
+            pst.setInt(1, 1);
+
             ResultSet resultat = pst.executeQuery();
             resultat.next();
-            
+
             String nomUtilisateurBase = resultat.getString("nom_utilisateur");
             String motDePasseBase = resultat.getString("mot_de_passe");
-            
-            if(nomUtilisateur.equals(nomUtilisateurBase) && motDePasseBase.equals(motDePasse) ){
-                 pageAccueuil.setVisible(true);
-                 pageAccueuil.setBounds(0, 0, 1920, 1080);
-                 pageAccueuil.setLocationRelativeTo(null);
-                 this.setVisible(false);
-                 
-            }else{
-              JOptionPane.showMessageDialog(MessageBienvenue, "Nom d'utilisateur ou mot de passe incorrects ",
-                    "Inane error",JOptionPane.ERROR_MESSAGE);  
+
+            if (nomUtilisateur.equals(nomUtilisateurBase) && motDePasseBase.equals(motDePasse)) {
+                pageAccueuil.setVisible(true);
+                pageAccueuil.setBounds(0, 0, 1920, 1080);
+                pageAccueuil.setLocationRelativeTo(null);
+                this.setVisible(false);
+
+            } else {
+                JOptionPane.showMessageDialog(MessageBienvenue, "Nom d'utilisateur ou mot de passe incorrects ",
+                        "Inane error", JOptionPane.ERROR_MESSAGE);
             }
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void afficheTableauClients(){
-        try {      
-            ConnexionBase connexionBase = ConnexionBase.recupInstance();
+
+    public void afficheTableauClients() {
+        try {
+            connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
             Integer i = 0;
-            
-            while(resultat.next()){
+
+            while (resultat.next()) {
                 Client client = new Client();
-                
+
                 client.setNom(resultat.getString("nom"));
                 client.setPrenom(resultat.getString("prenom"));
                 client.setMobile(resultat.getString("mobile"));
                 client.setAdresse(resultat.getString("adresse"));
                 client.setId(resultat.getInt("id"));
-                
+
                 tableClients.setValueAt(client.getNom(), i, 0);
                 tableClients.setValueAt(client.getPrenom(), i, 1);
                 tableClients.setValueAt(client.getMobile(), i, 2);
@@ -144,43 +146,45 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             }
             tableClients.getColumnModel().getColumn(4).setMinWidth(0);
             tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void videTableauClients(){
-       Integer nbLigne = tableClients.getRowCount();
-       for(Integer i = 0; i< nbLigne;i++){
-           tableClients.getModel().setValueAt("", i, 0);
-           tableClients.getModel().setValueAt("", i, 1);
-           tableClients.getModel().setValueAt("", i, 2);
-           tableClients.getModel().setValueAt("", i, 3);
-           tableClients.getModel().setValueAt("", i, 4);
-       }
-    }    
-    public Integer afficheTableauClientsFiltre(String recherche){
+
+    public void videTableauClients() {
+        Integer nbLigne = tableClients.getRowCount();
+        for (Integer i = 0; i < nbLigne; i++) {
+            tableClients.getModel().setValueAt("", i, 0);
+            tableClients.getModel().setValueAt("", i, 1);
+            tableClients.getModel().setValueAt("", i, 2);
+            tableClients.getModel().setValueAt("", i, 3);
+            tableClients.getModel().setValueAt("", i, 4);
+        }
+    }
+
+    public Integer afficheTableauClientsFiltre(String recherche) {
         videTableauClients();
         Integer i = 0;
-         try {
+        try {
             //chargement driver
             Class.forName("org.postgresql.Driver");
             //connexion avec la base
             Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");           
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
             //requete
             PreparedStatement pst = connexion.prepareStatement("SELECT * FROM clients WHERE nom ILIKE ? ORDER BY nom ASC");
-            pst.setString(1,recherche + "%");
-            ResultSet resultat = pst.executeQuery();          
-            while(resultat.next()){
+            pst.setString(1, recherche + "%");
+            ResultSet resultat = pst.executeQuery();
+            while (resultat.next()) {
                 Client client = new Client();
-                
+
                 client.setNom(resultat.getString("nom"));
                 client.setPrenom(resultat.getString("prenom"));
                 client.setMobile(resultat.getString("mobile"));
                 client.setAdresse(resultat.getString("adresse"));
                 client.setId(resultat.getInt("id"));
-                
+
                 tableClients.setValueAt(client.getNom(), i, 0);
                 tableClients.setValueAt(client.getPrenom(), i, 1);
                 tableClients.setValueAt(client.getMobile(), i, 2);
@@ -190,14 +194,21 @@ public class fenetrePrincipal extends javax.swing.JFrame{
             }
             tableClients.getColumnModel().getColumn(4).setMinWidth(0);
             tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return i;
+        return i;
     }
+
+    public void majCombos() {
+        /*connexionBase = ConnexionBase.recupInstance();
+        ResultSet resultat = connexionBase.requeteRecupereTout("Select * from type");*/
+        
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -893,6 +904,11 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         champLieuDepart.setText("jTextField1");
 
         btnValiderRDV.setText("Valider");
+        btnValiderRDV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValiderRDVActionPerformed(evt);
+            }
+        });
 
         btnAnnulerRDV.setText("Annuler");
 
@@ -1087,44 +1103,44 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         String nomUtilisateur = champNomUtilisateur.getText();
         String motDePasse = champMotDePasse.getText();
         String etatBTN = btnLog.getText();
-        
+
         try {
             //chargement driver
-            Class.forName("org.postgresql.Driver");            
+            Class.forName("org.postgresql.Driver");
             //connexion bdd
             Connection connexion;
-            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");           
-            if(etatBTN == "S'inscrire"){
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+            if (etatBTN == "S'inscrire") {
                 //on lui créer un compte utilisateur
-                if(!nomUtilisateur.equals("") && !motDePasse.equals("")){
+                if (!nomUtilisateur.equals("") && !motDePasse.equals("")) {
                     PreparedStatement pst = connexion.prepareStatement("Insert into utilisateur values (?,?,?)");
-                    pst.setInt(1,1);
-                    pst.setString(2,nomUtilisateur);
-                    pst.setString(3,motDePasse);
+                    pst.setInt(1, 1);
+                    pst.setString(2, nomUtilisateur);
+                    pst.setString(3, motDePasse);
                     pst.execute();
                     JOptionPane.showMessageDialog(MessageBienvenue, "Compte créer avec succès!\n Veuillez à présent vous connecter");
                     btnLog.setText("Se Connecter");
                     champNomUtilisateur.setText("");
                     champMotDePasse.setText("");
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(MessageBienvenue, "ERREUR!\n Nom d'utilisateur ou Mot de passe non renseigné ",
-                    "Erreur",JOptionPane.ERROR_MESSAGE);
-                }              
-            }else{//connexion
+                            "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {//connexion
                 //on test si le nom d'utilisateur + mot de passe correspondent au compte de la base
-                connexion(nomUtilisateur,motDePasse);  
+                connexion(nomUtilisateur, motDePasse);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }               
+        }
     }//GEN-LAST:event_btnLogActionPerformed
 
     private void btnNouveauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNouveauActionPerformed
         //on est dans le cas bouton nouveau
         Integer index = onglet.getSelectedIndex();
-        switch(index) {
+        switch (index) {
             case 0://client   
                 CreerModifierClient.setVisible(true);
                 CreerModifierClient.setBounds(0, 0, 1920, 1080);
@@ -1136,49 +1152,57 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 champMobile.setText("");
                 champAdresse.setText("");
                 break;
-            case 1://rendez-vous               
+            case 1://rendez-vous 
+                CreerModifierRDV.setVisible(true);
+                CreerModifierRDV.setBounds(0, 0, 1920, 1080);
+                CreerModifierRDV.setLocationRelativeTo(null);
+                CreerModifierRDV.setTitle("Transport T'aou - Création d'un Rendez-vous");
+                labelTitreCreerModifierRDV.setText("Création d'un Rendez-vous");
+
+                //chargement des combos :
+                
                 break;
             case 2://calendrier               
                 break;
-            default:           
+            default:
         }
     }//GEN-LAST:event_btnNouveauActionPerformed
 
     private void btnModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifierActionPerformed
         //on est dans le cas bouton modifier
         Integer index = onglet.getSelectedIndex();
-        switch(index) {
+        switch (index) {
             case 0://clients
                 CreerModifierClient.setVisible(true);
                 CreerModifierClient.setBounds(0, 0, 1920, 1080);
                 CreerModifierClient.setLocationRelativeTo(null);
                 CreerModifierClient.setTitle("Transport T'aou - Modification d'un client");
                 labelTitreCreerModifierClient.setText("Modification d'un client");
-                
+
                 Integer ligneSelectionne = tableClients.getSelectedRow();
-               
-                if (ligneSelectionne != -1){
+
+                if (ligneSelectionne != -1) {
                     champNom.setText(tableClients.getValueAt(ligneSelectionne, 0).toString());
                     champPrenom.setText(tableClients.getValueAt(ligneSelectionne, 1).toString());
                     champMobile.setText(tableClients.getValueAt(ligneSelectionne, 2).toString());
                     champAdresse.setText(tableClients.getValueAt(ligneSelectionne, 3).toString());
-                }else{
+                } else {
                     CreerModifierClient.setVisible(false);
                     JOptionPane.showMessageDialog(MessageBienvenue, "Aucune ligne n'a été selectionné",
-                    "Erreur",JOptionPane.ERROR_MESSAGE);
+                            "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
             case 1://rendez-vous
                 break;
             case 2://calendrier
                 break;
-            default:    
+            default:
         }
     }//GEN-LAST:event_btnModifierActionPerformed
 
     private void ongletStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ongletStateChanged
         Integer index = onglet.getSelectedIndex();
-        switch(index) {
+        switch (index) {
             case 0://clients
                 afficheTableauClients();
                 btnNouveau.setVisible(true);
@@ -1205,7 +1229,7 @@ public class fenetrePrincipal extends javax.swing.JFrame{
                 btnExportCSV.setVisible(false);
                 break;
             default:
-                
+
         }
     }//GEN-LAST:event_ongletStateChanged
 
@@ -1223,54 +1247,54 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
             Client client = new Client();
             //client.ajouterObservateur((MaJtable)tableClients);
-            
+
             client.setNom(champNom.getText());
             client.setPrenom(champPrenom.getText());
             client.setMobile(champMobile.getText());
             client.setAdresse(champAdresse.getText());
-            
+
             String nom = client.getNom();
             String prenom = client.getPrenom();
             String mobile = client.getMobile();
             String adresse = client.getAdresse();
 
             //ajouter une ligne en plus dans le tableau
-            Integer r = tableClients.getRowCount()+1;
+            Integer r = tableClients.getRowCount() + 1;
             modelBase.setRowCount(r);
             tableClients.setModel(modelBase);
-          
-            String titre = labelTitreCreerModifierClient.getText();
-            
-            if(titre.equals("Création d'un client")){//création d'un client
-                
-                ClientDAO test = new ClientDAO();
-                test.ajouterObservateur((MaJtable)tableClients);
-                test.CreerClient(client);
-                CreerModifierClient.setVisible(false); 
 
-            }else{//modification d'un client
-                Integer ligneSelectionne = tableClients.getSelectedRow();
-                String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
-                Integer idLigne = Integer.parseInt(idLigneChaine);
-               if(!nom.equals("")&&!prenom.equals("")&&!mobile.equals("")){
-                PreparedStatement pst = connexion.prepareStatement("UPDATE clients SET nom = ?, prenom = ?, mobile = ?, adresse = ? WHERE id = ?");
-                pst.setString(1,nom);
-                pst.setString(2,prenom);
-                pst.setString(3,mobile);
-                pst.setString(4,adresse);
-                pst.setInt(5,idLigne);
-                pst.execute();
-                
+            String titre = labelTitreCreerModifierClient.getText();
+
+            if (titre.equals("Création d'un client")) {//création d'un client
+
+                ClientDAO test = new ClientDAO();
+                test.ajouterObservateur((MaJtable) tableClients);
+                test.CreerClient(client);
                 CreerModifierClient.setVisible(false);
-                videTableauClients();
-                afficheTableauClients();
-                
-                JOptionPane.showMessageDialog(MessageBienvenue, "Client Modifier avec succès");
-               }else{
-                JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",   
-                "Erreur",JOptionPane.ERROR_MESSAGE);
-               }
-            }    
+
+            } else {//modification d'un client
+                Integer ligneSelectionne = tableClients.getSelectedRow();
+                String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
+                Integer idLigne = Integer.parseInt(idLigneChaine);
+                if (!nom.equals("") && !prenom.equals("") && !mobile.equals("")) {
+                    PreparedStatement pst = connexion.prepareStatement("UPDATE clients SET nom = ?, prenom = ?, mobile = ?, adresse = ? WHERE id = ?");
+                    pst.setString(1, nom);
+                    pst.setString(2, prenom);
+                    pst.setString(3, mobile);
+                    pst.setString(4, adresse);
+                    pst.setInt(5, idLigne);
+                    pst.execute();
+
+                    CreerModifierClient.setVisible(false);
+                    videTableauClients();
+                    afficheTableauClients();
+
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Client Modifier avec succès");
+                } else {
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",
+                            "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1297,74 +1321,74 @@ public class fenetrePrincipal extends javax.swing.JFrame{
         String adresse;
         Integer id;
         listeClient = new ArrayList<Client>(); //  on instancie
-        
-        if(nbLigneFiltre.equals(0)){
+
+        if (nbLigneFiltre.equals(0)) {
             try {
-            
-            ConnexionBase connexionBase = ConnexionBase.recupInstance();
-            ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
-            Integer nbEnregistrement = 0;
-             while(resultat.next()){
-                 nbEnregistrement++;
-             }
-             nbLigneFiltre = nbEnregistrement;
-             
+
+                connexionBase = ConnexionBase.recupInstance();
+                ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
+                Integer nbEnregistrement = 0;
+                while (resultat.next()) {
+                    nbEnregistrement++;
+                }
+                nbLigneFiltre = nbEnregistrement;
+
             } catch (SQLException ex) {
                 Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }              
+            }
         }
 
-        for(Integer i = 0; i< nbLigneFiltre;i++){
-           
-           nom = tableClients.getValueAt(i, 0).toString();
-           prenom = tableClients.getValueAt(i, 1).toString();
-           mobile = tableClients.getValueAt(i, 2).toString();
-           adresse = tableClients.getValueAt(i, 3).toString();
-           String idLigneChaine = tableClients.getValueAt(i,4).toString();
+        for (Integer i = 0; i < nbLigneFiltre; i++) {
 
-           id = Integer.parseInt(idLigneChaine);
-           Client client = new Client();
-           
-           client.setNom(nom);
-           client.setPrenom(prenom);
-           client.setMobile(mobile);
-           client.setAdresse(adresse);
-           client.setId(id);
-           
-           listeClient.add(client);  
-       }
-        
+            nom = tableClients.getValueAt(i, 0).toString();
+            prenom = tableClients.getValueAt(i, 1).toString();
+            mobile = tableClients.getValueAt(i, 2).toString();
+            adresse = tableClients.getValueAt(i, 3).toString();
+            String idLigneChaine = tableClients.getValueAt(i, 4).toString();
+
+            id = Integer.parseInt(idLigneChaine);
+            Client client = new Client();
+
+            client.setNom(nom);
+            client.setPrenom(prenom);
+            client.setMobile(mobile);
+            client.setAdresse(adresse);
+            client.setId(id);
+
+            listeClient.add(client);
+        }
+
         String resultat = "NOM;PRENOM;MOBILE;ADRESSE \n";
-                for(Client client : listeClient){
-                    resultat += client + "\n";
-                }
+        for (Client client : listeClient) {
+            resultat += client + "\n";
+        }
         System.out.println(resultat);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier CSV", "csv");
         selecteurFichier.setFileFilter(filter);
         int returnval = selecteurFichier.showSaveDialog(this);
-        if(returnval == selecteurFichier.APPROVE_OPTION){
+        if (returnval == selecteurFichier.APPROVE_OPTION) {
             File f = selecteurFichier.getSelectedFile();
-            
+
             try {
                 FileWriter fw = new FileWriter(f);
                 fw.write(resultat);
                 fw.flush();
                 fw.close();
-            
+
             } catch (IOException ex) {
                 Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }       
+        }
         listeClient.clear();
     }//GEN-LAST:event_btnExportCSVActionPerformed
 
     private void btnRechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechercherActionPerformed
-      
+
         String recherche = champRecherche.getText();
-        
-        if(recherche.equalsIgnoreCase("")){
+
+        if (recherche.equalsIgnoreCase("")) {
             afficheTableauClients();
-        }else{
+        } else {
             nbLigneFiltre = afficheTableauClientsFiltre(recherche);
         }
     }//GEN-LAST:event_btnRechercherActionPerformed
@@ -1379,60 +1403,72 @@ public class fenetrePrincipal extends javax.swing.JFrame{
 
     private void BtnOuiConfirmationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnOuiConfirmationActionPerformed
         Integer ligneSelectionne = tableClients.getSelectedRow();
-        String idLigneChaine = tableClients.getValueAt(ligneSelectionne,4).toString();
+        String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
         Integer idLigne = Integer.parseInt(idLigneChaine);
 
-           MessageConfirmation.setVisible(false);
-           try {
-              //chargement driver
-              Class.forName("org.postgresql.Driver");
-              //connexion bdd
-              Connection connexion;
-              connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
+        MessageConfirmation.setVisible(false);
+        try {
+            //chargement driver
+            Class.forName("org.postgresql.Driver");
+            //connexion bdd
+            Connection connexion;
+            connexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transport-taou", "postgres", "admin");
 
-              //requete de suppression
-              PreparedStatement pst = connexion.prepareStatement("DELETE FROM clients WHERE id = ?");
-              pst.setInt(1,idLigne);
-              pst.execute();
-              CreerModifierClient.setVisible(false);
-              videTableauClients();
-              afficheTableauClients();
-              JOptionPane.showMessageDialog(MessageBienvenue, "Client supprimer avec succès");
+            //requete de suppression
+            PreparedStatement pst = connexion.prepareStatement("DELETE FROM clients WHERE id = ?");
+            pst.setInt(1, idLigne);
+            pst.execute();
+            CreerModifierClient.setVisible(false);
+            videTableauClients();
+            afficheTableauClients();
+            JOptionPane.showMessageDialog(MessageBienvenue, "Client supprimer avec succès");
 
-          } catch (ClassNotFoundException ex) {
-              Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-          } catch (SQLException ex) {
-              Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
-          }   
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnOuiConfirmationActionPerformed
 
     private void BtnNonConfirmationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNonConfirmationActionPerformed
-        
+
         MessageConfirmation.setVisible(false);
         JOptionPane.showMessageDialog(MessageBienvenue, "La suppression annulé");
     }//GEN-LAST:event_BtnNonConfirmationActionPerformed
 
     private void btnAnnuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnuleActionPerformed
-        
+
         Integer index = onglet.getSelectedIndex();
         String titre = labelTitreCreerModifierClient.getText();;
         CreerModifierClient.setVisible(false);
-        
-        switch(index) {
+
+        switch (index) {
             case 0://clients
-                if(titre.equals("Création d'un client")){
-                   JOptionPane.showMessageDialog(MessageBienvenue, "Création d'un client annulé"); 
-                }else{
-                   JOptionPane.showMessageDialog(MessageBienvenue, "Modification du client annulé"); 
+                if (titre.equals("Création d'un client")) {
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Création d'un client annulé");
+                } else {
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Modification du client annulé");
                 }
                 break;
             case 1://rendez-vous     
                 break;
             case 2://calendrier
                 break;
-            default:         
-        }  
+            default:
+        }
     }//GEN-LAST:event_btnAnnuleActionPerformed
+
+    private void btnValiderRDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderRDVActionPerformed
+
+        connexionBase = connexionBase.recupInstance();
+
+        /*RendezVous rdv = new RendezVous(champNomRDV.getText(),
+            comboTypeRdv.getSelectedItem().getClass()., champDateDepart.getText(), champHeureDepart.getText(),
+            champLieuDepart.getText(), champLieuDestination.getText(), champDateRetour.getText(),
+            champHeureRetour.getText(), champNoteRDV.getText(), spinnerNbPersonnes.getValue(),
+            champPrix.getText(), comboMoyenPaimentRDV.getSelectedItem(), comboEtatRDV.getSelectedItem());*/
+
+    }//GEN-LAST:event_btnValiderRDVActionPerformed
 
     /**
      * @param args the command line arguments

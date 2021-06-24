@@ -36,8 +36,6 @@ public class MaJtable extends javax.swing.JTable implements Observateur{
             case "Creation":
                 JOptionPane.showMessageDialog(fenPrincipal, "Client Creer avec succès");
         }
-                
-        
         fenPrincipal.videTableauClients();
         fenPrincipal.afficheTableauClients();
     }
