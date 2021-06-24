@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -38,6 +39,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
      * Creates new form fenetrePrincipal
      */
     List<Client> listeClient; //1) on initialise une array list
+    List<TypeDemande> listeTypeDemande;
     Integer nbLigneFiltre = 0;//nb d'enregistrement du tableau actuel
     Client client;
     Integer nbLigne;
@@ -203,9 +205,32 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         return i;
     }
 
-    public void majCombos() {
-        /*connexionBase = ConnexionBase.recupInstance();
-        ResultSet resultat = connexionBase.requeteRecupereTout("Select * from type");*/
+    public void majCombos() throws SQLException {
+        
+        listeTypeDemande = new ArrayList<TypeDemande>();
+        ListTypeModel ListeTypeModel = new ListTypeModel();
+        DefaultComboBoxModel defautComboBoxModel = new DefaultComboBoxModel();
+        
+        
+        connexionBase = ConnexionBase.recupInstance();
+        ResultSet resultat = connexionBase.requeteRecupereTout("SELECT * FROM type_demande");
+        
+        while(resultat.next()){
+            
+            TypeDemande typeDemande = new TypeDemande();
+            typeDemande.setTypeDemande(resultat.getString("typeDemande"));
+            typeDemande.setId(resultat.getInt("id"));
+            
+            listeTypeDemande.add(typeDemande);
+            
+            
+        }
+        for (TypeDemande type : listeTypeDemande) {
+            defautComboBoxModel.addElement(type);
+        }
+        
+        comboTypeRdv.setModel(defautComboBoxModel);
+        comboTypeRdv.setRenderer(new MaListeCellRenderer());
         
     }
 
@@ -888,6 +913,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jScrollPane3.setViewportView(champNoteRDV);
 
         comboTypeRdv.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTypeRdv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTypeRdvActionPerformed(evt);
+            }
+        });
 
         comboMoyenPaimentRDV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -1158,10 +1188,19 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 CreerModifierRDV.setLocationRelativeTo(null);
                 CreerModifierRDV.setTitle("Transport T'aou - Création d'un Rendez-vous");
                 labelTitreCreerModifierRDV.setText("Création d'un Rendez-vous");
-
-                //chargement des combos :
+                
+                {
+                    try {
+                        //chargement des combos :
+                        majCombos();
+                       
+                    } catch (SQLException ex) {
+                        Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 
                 break;
+
             case 2://calendrier               
                 break;
             default:
@@ -1469,6 +1508,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             champPrix.getText(), comboMoyenPaimentRDV.getSelectedItem(), comboEtatRDV.getSelectedItem());*/
 
     }//GEN-LAST:event_btnValiderRDVActionPerformed
+
+    private void comboTypeRdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeRdvActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboTypeRdvActionPerformed
 
     /**
      * @param args the command line arguments
