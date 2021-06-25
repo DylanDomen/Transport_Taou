@@ -5,17 +5,14 @@
  */
 package com.mycompany.transport.taou;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.AbstractListModel;
 
 /**
  *
  * @author dylan
  */
-public class ListTypeModel extends AbstractListModel{
-    
-    
+public class ListPaimentModel extends AbstractListModel{
+
     @Override
     public int getSize() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -25,4 +22,5 @@ public class ListTypeModel extends AbstractListModel{
     public Object getElementAt(int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

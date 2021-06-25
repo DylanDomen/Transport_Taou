@@ -51,6 +51,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
      */
     List<Client> listeClient; //1) on initialise une array list
     List<TypeDemande> listeTypeDemande;
+    List<MoyenPaiment> listeMoyensPaiment;
     Integer nbLigneFiltre = 0;//nb d'enregistrement du tableau actuel
     Client client;
     Integer nbLigne;
@@ -250,6 +251,29 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         comboTypeRdv.setModel(defautComboBoxModel);
         comboTypeRdv.setRenderer(new MaListeCellRenderer());
 
+        //combo moyen de paiment
+        listeMoyensPaiment = new ArrayList<MoyenPaiment>();
+        ListPaimentModel ListePaimentModel = new ListPaimentModel();
+        DefaultComboBoxModel defautComboBoxModelMoyenpaiment = new DefaultComboBoxModel();
+        
+        connexionBase = ConnexionBase.recupInstance();
+        resultat = connexionBase.requeteRecupereTout("SELECT * FROM moyens_paiment");
+        
+        while (resultat.next()) {
+
+            MoyenPaiment moyenPaiment = new MoyenPaiment();
+            moyenPaiment.setMoyenPaiment(resultat.getString("moyenPaiment"));
+            moyenPaiment.setId(resultat.getInt("id"));
+
+            listeMoyensPaiment.add(moyenPaiment);
+
+        }
+        for (MoyenPaiment moyen : listeMoyensPaiment) {
+            defautComboBoxModelMoyenpaiment.addElement(moyen);
+        }
+        
+        comboMoyenPaimentRDV.setModel(defautComboBoxModelMoyenpaiment);
+        comboMoyenPaimentRDV.setRenderer(new MaListeCellRenderer());
     }
 
     /**
@@ -895,13 +919,12 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
 
         CreerModifierRDV.setPreferredSize(new java.awt.Dimension(1024, 614));
+        CreerModifierRDV.setResizable(false);
 
         jPanel8.setBackground(new java.awt.Color(255, 204, 204));
 
         labelTitreCreerModifierRDV.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         labelTitreCreerModifierRDV.setText("Création/modification d'un Rendez-vous");
-
-        champNomRDV.setText("jTextField1");
 
         LabelNomRDV.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         LabelNomRDV.setText("Nom");
@@ -916,12 +939,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             }
         });
 
-        champLieuDestination.setText("jTextField1");
-
         jLabel10.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel10.setText("Lieu Destination");
 
         champDateDepart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        champDateDepart.setText("01/01/2021");
 
         jLabel7.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel7.setText("Date Départ");
@@ -930,11 +952,13 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jLabel11.setText("Date Retour");
 
         champDateRetour.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        champDateRetour.setText("01/01/2021");
 
         jLabel12.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel12.setText("Heure Retour");
 
         champHeureRetour.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        champHeureRetour.setText("00:00");
         champHeureRetour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champHeureRetourActionPerformed(evt);
@@ -942,6 +966,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         });
 
         champHeureDepart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        champHeureDepart.setText("00:00");
 
         jLabel8.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel8.setText("Heure Départ");
@@ -961,7 +986,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel13.setText("Nombre De Personnes");
 
-        champPrix.setText("jTextField1");
+        champPrix.setText("11.99");
 
         jLabel15.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel15.setText("Prix");
@@ -1001,25 +1026,22 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel7))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnValiderRDV)
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(champLieuDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                    .addComponent(champHeureDepart, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(champDateDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(jLabel13)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(spinnerNbPersonnes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnValiderRDV)
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(champLieuDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                                .addComponent(champHeureDepart, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(champDateDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinnerNbPersonnes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel8Layout.createSequentialGroup()
@@ -1040,15 +1062,12 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel11)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel14))
+                                    .addComponent(jLabel12))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(champLieuDestination, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                        .addComponent(champDateRetour)
-                                        .addComponent(champHeureRetour))))
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(champLieuDestination, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                                    .addComponent(champDateRetour)
+                                    .addComponent(champHeureRetour)))
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
@@ -1057,8 +1076,12 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboEtatRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(comboMoyenPaimentRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(202, 202, 202))))
+                                    .addComponent(comboMoyenPaimentRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(72, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(219, 219, 219)
                 .addComponent(labelTitreCreerModifierRDV)
@@ -1128,7 +1151,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         CreerModifierRDV.getContentPane().setLayout(CreerModifierRDVLayout);
         CreerModifierRDVLayout.setHorizontalGroup(
             CreerModifierRDVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         CreerModifierRDVLayout.setVerticalGroup(
             CreerModifierRDVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
