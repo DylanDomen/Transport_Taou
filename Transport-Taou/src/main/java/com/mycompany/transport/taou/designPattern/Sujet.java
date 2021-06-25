@@ -41,4 +41,5 @@ public class Sujet {
     public void setCollectionObservateur(Collection collectionObservateur) {
         this.collectionObservateur = collectionObservateur;
     }
+    
 }

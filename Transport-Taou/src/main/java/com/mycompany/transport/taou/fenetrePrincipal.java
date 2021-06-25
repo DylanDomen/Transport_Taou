@@ -359,7 +359,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             }
         });
 
-        tableClients.setBackground(new java.awt.Color(153, 255, 204));
         tableClients.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -517,7 +516,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
         onglet.addTab("Clients", jPanel1);
 
-        jTable1.setBackground(new java.awt.Color(153, 255, 204));
         jTable1.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -969,8 +967,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        CreerModifierRDV.setPreferredSize(new java.awt.Dimension(1024, 614));
-
         jPanel8.setBackground(new java.awt.Color(255, 204, 204));
 
         labelTitreCreerModifierRDV.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
@@ -1145,17 +1141,19 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(labelTitreCreerModifierRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(champNomRDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LabelNomRDV)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addComponent(champLieuDestination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(champNomRDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LabelNomRDV)
+                        .addComponent(champLieuDestination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LabelTypeRDV)
-                    .addComponent(comboTypeRdv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(champDateRetour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboTypeRdv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(champDateRetour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -1308,7 +1306,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
             connexionBase = ConnexionBase.recupInstance();
             Connection connexion = connexionBase.getConnexion();
-            
+
             if (etatBTN == "S'inscrire") {
                 //on lui créer un compte utilisateur
                 if (!nomUtilisateur.equals("") && !motDePasse.equals("")) {
@@ -1438,77 +1436,64 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_ongletStateChanged
 
     private void champNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champNomActionPerformed
-        
+
     }//GEN-LAST:event_champNomActionPerformed
 
     private void btnValiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderActionPerformed
-        try {
-            connexionBase = ConnexionBase.recupInstance();
-            Connection connexion = connexionBase.getConnexion();
-
-            Client client = new Client();
+        connexionBase = ConnexionBase.recupInstance();
+        Connection connexion = connexionBase.getConnexion();
+        Client client = new Client();
+        client.setNom(champNom.getText());
+        client.setPrenom(champPrenom.getText());
+        client.setMobile(champMobile.getText());
+        client.setAdresse(champAdresse.getText());
+        String nom = client.getNom();
+        String prenom = client.getPrenom();
+        String mobile = client.getMobile();
+        String adresse = client.getAdresse();
+        //ajouter une ligne en plus dans le tableau
+        Integer r = tableClients.getRowCount() + 1;
+        modelBase.setRowCount(r);
+        tableClients.setModel(modelBase);
+        String titre = labelTitreCreerModifierClient.getText();
+        ClientDAO sujet = new ClientDAO();
+        sujet.ajouterObservateur((MaJtable) tableClients);
+        if (titre.equals("Création d'un client")) {//création d'un client
+            sujet.CreerClient(client);
+            CreerModifierClient.setVisible(false);
             
-            client.setNom(champNom.getText());
-            client.setPrenom(champPrenom.getText());
-            client.setMobile(champMobile.getText());
-            client.setAdresse(champAdresse.getText());
-
-            String nom = client.getNom();
-            String prenom = client.getPrenom();
-            String mobile = client.getMobile();
-            String adresse = client.getAdresse();
-
-            //ajouter une ligne en plus dans le tableau
-            Integer r = tableClients.getRowCount() + 1;
-            modelBase.setRowCount(r);
-            tableClients.setModel(modelBase);
-
-            String titre = labelTitreCreerModifierClient.getText();
-
-            if (titre.equals("Création d'un client")) {//création d'un client
-
-                ClientDAO test = new ClientDAO();
-                test.ajouterObservateur((MaJtable) tableClients);
-                test.CreerClient(client);
+        } else {//modification d'un client
+            Integer ligneSelectionne = tableClients.getSelectedRow();
+            String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
+            Integer idLigne = Integer.parseInt(idLigneChaine);
+            if (!nom.equals("") && !prenom.equals("") && !mobile.equals("")) {
+                
+                sujet.ModifierClient(idLigne,client);
                 CreerModifierClient.setVisible(false);
-
-            } else {//modification d'un client
-                Integer ligneSelectionne = tableClients.getSelectedRow();
-                String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
-                Integer idLigne = Integer.parseInt(idLigneChaine);
-                if (!nom.equals("") && !prenom.equals("") && !mobile.equals("")) {
-                    PreparedStatement pst = connexion.prepareStatement("UPDATE clients SET nom = ?, prenom = ?, mobile = ?, adresse = ? WHERE id = ?");
-                    pst.setString(1, nom);
-                    pst.setString(2, prenom);
-                    pst.setString(3, mobile);
-                    pst.setString(4, adresse);
-                    pst.setInt(5, idLigne);
-                    pst.execute();
-
-                    CreerModifierClient.setVisible(false);
-                    videTableauClients();
-                    afficheTableauClients();
-
-                    JOptionPane.showMessageDialog(MessageBienvenue, "Client Modifier avec succès");
-                } else {
-                    JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",
-                            "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+            } else {
+                JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",
+                        "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnValiderActionPerformed
 
     private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
         //supprimer le client de la ligne selectionné
-        MessageConfirmation.setVisible(true);
-        MessageConfirmation.setBounds(0, 0, 400, 300);
-        MessageConfirmation.setLocationRelativeTo(null);
-        MessageConfirmation.setTitle("Transport T'aou - Confirmation");
-        TexteMessageConfirmation.setText("êtes vous sure de vouloir supprimer ce client ? ");
-        BtnOuiConfirmation.setText("Oui");
-        BtnNonConfirmation.setText("Non");
+        Integer ligneSelectionne = tableClients.getSelectedRow();
+
+        if (ligneSelectionne.equals(-1)) {
+            JOptionPane.showMessageDialog(MessageBienvenue, "Aucune ligne sélectionnée",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            MessageConfirmation.setVisible(true);
+            MessageConfirmation.setBounds(0, 0, 400, 300);
+            MessageConfirmation.setLocationRelativeTo(null);
+            MessageConfirmation.setTitle("Transport T'aou - Confirmation");
+            TexteMessageConfirmation.setText("êtes vous sure de vouloir supprimer ce client ? ");
+            BtnOuiConfirmation.setText("Oui");
+            BtnNonConfirmation.setText("Non");
+        }
     }//GEN-LAST:event_btnSupprimerActionPerformed
 
     private void btnExportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportCSVActionPerformed
@@ -1542,7 +1527,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             String idLigneChaine = tableClients.getValueAt(i, 4).toString();
 
             id = Integer.parseInt(idLigneChaine);
-            Client client = new Client(id,nom,prenom,mobile,adresse);
+            Client client = new Client(id, nom, prenom, mobile, adresse);
 
             listeClient.add(client);
         }
@@ -1583,33 +1568,28 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRechercherActionPerformed
 
     private void champAdresseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champAdresseActionPerformed
-        
+
     }//GEN-LAST:event_champAdresseActionPerformed
 
     private void tableClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientsMouseClicked
-        
+
     }//GEN-LAST:event_tableClientsMouseClicked
 
     private void BtnOuiConfirmationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnOuiConfirmationActionPerformed
         Integer ligneSelectionne = tableClients.getSelectedRow();
-        String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
-        Integer idLigne = Integer.parseInt(idLigneChaine);
 
-        MessageConfirmation.setVisible(false);
-        try {
-            connexionBase = ConnexionBase.recupInstance();
-            Connection connexion = connexionBase.getConnexion();
-            //requete de suppression
-            PreparedStatement pst = connexion.prepareStatement("DELETE FROM clients WHERE id = ?");
-            pst.setInt(1, idLigne);
-            pst.execute();
-            CreerModifierClient.setVisible(false);
-            videTableauClients();
-            afficheTableauClients();
-            JOptionPane.showMessageDialog(MessageBienvenue, "Client supprimer avec succès");
+        if (ligneSelectionne.equals(-1)) {
+            MessageConfirmation.setVisible(false);
+            JOptionPane.showMessageDialog(MessageBienvenue, "Aucune ligne sélectionnée",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
+            Integer idLigne = Integer.parseInt(idLigneChaine);
+            ClientDAO sujet = new ClientDAO();
+            sujet.ajouterObservateur((MaJtable) tableClients);
+            sujet.SupprimmerClient(idLigne);
+            MessageConfirmation.setVisible(false);
         }
     }//GEN-LAST:event_BtnOuiConfirmationActionPerformed
 
@@ -1654,7 +1634,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnValiderRDVActionPerformed
 
     private void comboTypeRdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeRdvActionPerformed
-        
+
     }//GEN-LAST:event_comboTypeRdvActionPerformed
 
     private void champHeureRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champHeureRetourActionPerformed

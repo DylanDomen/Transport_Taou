@@ -11,4 +11,5 @@ package com.mycompany.transport.taou.designPattern;
  */
 public interface Observateur {
     public void detecter(String mode);
+    
 }
