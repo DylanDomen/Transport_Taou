@@ -11,7 +11,7 @@ import com.mycompany.transport.taou.designPattern.Sujet;
  *
  * @author dylan
  */
-public class Client extends Sujet{
+public class Client{
     private Integer id;
     private String nom;
     private String prenom;

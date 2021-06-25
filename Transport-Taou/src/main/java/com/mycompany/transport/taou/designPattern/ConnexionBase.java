@@ -7,6 +7,7 @@ package com.mycompany.transport.taou.designPattern;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -51,4 +52,14 @@ public class ConnexionBase {
 
         return resultat;
     }
+
+    public Connection getConnexion() {
+        return connexion;
+    }
+
+    public void setConnexion(Connection connexion) {
+        this.connexion = connexion;
+    }
+    
+    
 }
