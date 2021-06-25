@@ -64,11 +64,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         initComponents();
 
         nbLigne = tableClients.getRowCount();
-        modelBase = (DefaultTableModel) tableClients.getModel();
-        selectionModelBase = (ListSelectionModel) tableClients.getSelectionModel();
-        tableClients = new MaJtable();
-        tableClients.setModel(modelBase);
-        tableClients.setSelectionModel(selectionModelBase);
+        //modelBase = (DefaultTableModel) tableClients.getModel();
+        //selectionModelBase = (ListSelectionModel) tableClients.getSelectionModel();
+        tableClients = new MaJtable(this);
+        //tableClients.setModel(modelBase);
+        //tableClients.setSelectionModel(selectionModelBase);
         client = new Client();
         premiereUtilisation();
     }
@@ -146,8 +146,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         try {
             connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
-            Integer i = 0;
+            //Integer i = 0;
 
+            MonModel model= new MonModel();
+            
             while (resultat.next()) {
                 Client client = new Client();
 
@@ -157,13 +159,16 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 client.setAdresse(resultat.getString("adresse"));
                 client.setId(resultat.getInt("id"));
 
-                tableClients.setValueAt(client.getNom(), i, 0);
+                model.ajoutClient(client);
+                
+                /*tableClients.setValueAt(client.getNom(), i, 0);
                 tableClients.setValueAt(client.getPrenom(), i, 1);
                 tableClients.setValueAt(client.getMobile(), i, 2);
                 tableClients.setValueAt(client.getAdresse(), i, 3);
                 tableClients.setValueAt(client.getId(), i, 4);
-                i++;
+                i++;*/
             }
+            tableClients.setModel(model);
             tableClients.getColumnModel().getColumn(4).setMinWidth(0);
             tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
 
@@ -216,6 +221,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         return i;
+        
     }
 
     public void majCombos() throws SQLException {
@@ -372,128 +378,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         });
 
         tableClients.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
-        tableClients.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Nom", "Prenom", "Mobile", "Adresse", "id"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tableClients.setModel(new MonModel());
         tableClients.setGridColor(new java.awt.Color(51, 51, 51));
         tableClients.setSelectionBackground(new java.awt.Color(255, 204, 204));
         tableClients.getTableHeader().setReorderingAllowed(false);
@@ -1568,9 +1453,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         String mobile = client.getMobile();
         String adresse = client.getAdresse();
         //ajouter une ligne en plus dans le tableau
-        Integer r = tableClients.getRowCount() + 1;
-        modelBase.setRowCount(r);
-        tableClients.setModel(modelBase);
+        //Integer r = tableClients.getRowCount() + 1;
+        //modelBase.setRowCount(r);
+        //tableClients.setModel(modelBase);
         String titre = labelTitreCreerModifierClient.getText();
         ClientDAO sujet = new ClientDAO();
         sujet.ajouterObservateur((MaJtable) tableClients);

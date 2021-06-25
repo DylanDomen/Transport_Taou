@@ -10,6 +10,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -19,19 +20,26 @@ import javax.swing.table.TableModel;
 public class MaJtable extends javax.swing.JTable implements Observateur {
 
     Client client;
+    private fenetrePrincipal fenPrincipal;
 
-    public MaJtable() {
+    public MaJtable(fenetrePrincipal f) {
         client = new Client();
+        MonModel model = new MonModel();
+        this.setModel(model);
+        this.fenPrincipal = f;
     }
 
-    MaJtable(Client client) {
+    MaJtable(Client client,fenetrePrincipal f) {
         this.client = client;
+        MonModel model = new MonModel();
+        this.setModel(model);
+        this.fenPrincipal = f;
     }
 
     @Override
     public void detecter(String mode) {
 
-        fenetrePrincipal fenPrincipal = new fenetrePrincipal();
+        //fenetrePrincipal fenPrincipal = new fenetrePrincipal();
 
         switch (mode) {
             case "Creation":
@@ -48,9 +56,10 @@ public class MaJtable extends javax.swing.JTable implements Observateur {
                         "Erreur", JOptionPane.ERROR_MESSAGE);
                 break;
         }
-
-        fenPrincipal.videTableauClients();
+        
+        //fenPrincipal.videTableauClients();
         fenPrincipal.afficheTableauClients();
+             
     }
 
 }
