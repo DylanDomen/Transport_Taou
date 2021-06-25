@@ -220,6 +220,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
     public void majCombos() throws SQLException {
 
+        //combo type demande
         listeTypeDemande = new ArrayList<TypeDemande>();
         ListTypeModel ListeTypeModel = new ListTypeModel();
         DefaultComboBoxModel defautComboBoxModel = new DefaultComboBoxModel();
@@ -271,6 +272,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         btnNouveau = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        parametre = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         CreerModifierClient = new javax.swing.JFrame();
         jPanel7 = new javax.swing.JPanel();
         labelTitreCreerModifierClient = new javax.swing.JLabel();
@@ -324,6 +329,13 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         btnValiderRDV = new javax.swing.JButton();
         btnAnnulerRDV = new javax.swing.JButton();
+        CreerTypeOuMoyenPaiment = new javax.swing.JFrame();
+        jPanel9 = new javax.swing.JPanel();
+        labelTitreCreationTypeOuMoyenPaiment = new javax.swing.JLabel();
+        champCreerTypeOuMoyenPaiment = new javax.swing.JTextField();
+        labelChampCreerTypeOuMoyenPaiment = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         champNomUtilisateur = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -764,6 +776,36 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addGap(58, 58, 58))
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(153, 255, 204));
+
+        parametre.setBackground(new java.awt.Color(153, 255, 204));
+        parametre.setText("Paramètres");
+        parametre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parametreActionPerformed(evt);
+            }
+        });
+
+        jMenuItem1.setText("Créer un type de demande");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        parametre.add(jMenuItem1);
+
+        jMenuItem2.setText("Créer un moyen de paiment");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        parametre.add(jMenuItem2);
+
+        jMenuBar1.add(parametre);
+
+        pageAccueuil.setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout pageAccueuilLayout = new javax.swing.GroupLayout(pageAccueuil.getContentPane());
         pageAccueuil.getContentPane().setLayout(pageAccueuilLayout);
         pageAccueuilLayout.setHorizontalGroup(
@@ -966,6 +1008,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             MessageConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        CreerModifierRDV.setPreferredSize(new java.awt.Dimension(1024, 614));
 
         jPanel8.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -1204,6 +1248,78 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         CreerModifierRDVLayout.setVerticalGroup(
             CreerModifierRDVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel9.setBackground(new java.awt.Color(255, 204, 204));
+
+        labelTitreCreationTypeOuMoyenPaiment.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
+        labelTitreCreationTypeOuMoyenPaiment.setText("jLabel3");
+
+        labelChampCreerTypeOuMoyenPaiment.setText("jLabel3");
+
+        jButton1.setBackground(new java.awt.Color(153, 255, 204));
+        jButton1.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
+        jButton1.setText("Ajouter");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(153, 255, 204));
+        jButton2.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
+        jButton2.setText("Annuler");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(114, 114, 114)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(labelChampCreerTypeOuMoyenPaiment)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelTitreCreationTypeOuMoyenPaiment, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                            .addComponent(champCreerTypeOuMoyenPaiment))))
+                .addContainerGap(110, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(labelTitreCreationTypeOuMoyenPaiment)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(champCreerTypeOuMoyenPaiment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelChampCreerTypeOuMoyenPaiment))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(62, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout CreerTypeOuMoyenPaimentLayout = new javax.swing.GroupLayout(CreerTypeOuMoyenPaiment.getContentPane());
+        CreerTypeOuMoyenPaiment.getContentPane().setLayout(CreerTypeOuMoyenPaimentLayout);
+        CreerTypeOuMoyenPaimentLayout.setHorizontalGroup(
+            CreerTypeOuMoyenPaimentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        CreerTypeOuMoyenPaimentLayout.setVerticalGroup(
+            CreerTypeOuMoyenPaimentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1461,14 +1577,14 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         if (titre.equals("Création d'un client")) {//création d'un client
             sujet.CreerClient(client);
             CreerModifierClient.setVisible(false);
-            
+
         } else {//modification d'un client
             Integer ligneSelectionne = tableClients.getSelectedRow();
             String idLigneChaine = tableClients.getValueAt(ligneSelectionne, 4).toString();
             Integer idLigne = Integer.parseInt(idLigneChaine);
             if (!nom.equals("") && !prenom.equals("") && !mobile.equals("")) {
-                
-                sujet.ModifierClient(idLigne,client);
+
+                sujet.ModifierClient(idLigne, client);
                 CreerModifierClient.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs obligatoire",
@@ -1645,6 +1761,98 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboEtatRDVActionPerformed
 
+    private void parametreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parametreActionPerformed
+
+
+    }//GEN-LAST:event_parametreActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        CreerTypeOuMoyenPaiment.setVisible(true);
+        CreerTypeOuMoyenPaiment.setBounds(0, 0, 443, 181);
+        CreerTypeOuMoyenPaiment.setLocationRelativeTo(null);
+        CreerTypeOuMoyenPaiment.setTitle("Transport T'aou - Création D'un Type de Demande");
+        labelTitreCreationTypeOuMoyenPaiment.setText("Création D'un Type de Demande");
+        labelChampCreerTypeOuMoyenPaiment.setText("Type de Demande");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (labelTitreCreationTypeOuMoyenPaiment.getText().equals("Création D'un Type de Demande")) {
+            //ajout d'un type de demande
+            if (!(champCreerTypeOuMoyenPaiment.getText()).equals("")) {
+                connexionBase = ConnexionBase.recupInstance();
+                Connection connexion = connexionBase.getConnexion();
+                //récupère le dernier id+1 pour ajouter a la suite
+
+                try {
+                    Statement st;
+                    st = connexion.createStatement();
+                    ResultSet resultat = st.executeQuery("SELECT MAX(id) FROM type_demande;");
+                    resultat.next();
+                    int id = resultat.getInt("max") + 1;
+
+                    PreparedStatement pst = connexion.prepareStatement("Insert into type_demande values (?,?)");
+                    pst.setInt(1, id);
+                    pst.setString(2, champCreerTypeOuMoyenPaiment.getText());
+                    pst.execute();
+                    CreerTypeOuMoyenPaiment.setVisible(false);
+                    //on actualise les combo
+                    majCombos();
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Création d'un nouveau type de demande effectué avec succès");
+                } catch (SQLException ex) {
+                    Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(MessageBienvenue, "ERREUR!\nVeuillez remplir correctement le champ type de demande",
+                        "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            //ajout moyen paiment
+
+            if (!(champCreerTypeOuMoyenPaiment.getText()).equals("")) {
+                connexionBase = ConnexionBase.recupInstance();
+                Connection connexion = connexionBase.getConnexion();
+                //récupère le dernier id+1 pour ajouter a la suite
+
+                try {
+                    Statement st;
+                    st = connexion.createStatement();
+                    ResultSet resultat = st.executeQuery("SELECT MAX(id) FROM moyens_paiment;");
+                    resultat.next();
+                    int id = resultat.getInt("max") + 1;
+
+                    PreparedStatement pst = connexion.prepareStatement("Insert into moyens_paiment values (?,?)");
+                    pst.setInt(1, id);
+                    pst.setString(2, champCreerTypeOuMoyenPaiment.getText());
+                    pst.execute();
+                    CreerTypeOuMoyenPaiment.setVisible(false);
+                    //on actualise les combo
+                    majCombos();
+                    JOptionPane.showMessageDialog(MessageBienvenue, "Création d'un nouveau moyen de paiment effectué avec succès");
+                } catch (SQLException ex) {
+                    Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else {
+                JOptionPane.showMessageDialog(MessageBienvenue, "ERREUR!\nVeuillez remplir correctement le champ moyen de paiment",
+                        "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        CreerTypeOuMoyenPaiment.setVisible(true);
+        CreerTypeOuMoyenPaiment.setBounds(0, 0, 443, 181);
+        CreerTypeOuMoyenPaiment.setLocationRelativeTo(null);
+        CreerTypeOuMoyenPaiment.setTitle("Transport T'aou - Création D'un Moyen de Paiment");
+        labelTitreCreationTypeOuMoyenPaiment.setText("Création D'un Moyen de Paiment");
+        labelChampCreerTypeOuMoyenPaiment.setText("Moyen de Paiment");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        CreerTypeOuMoyenPaiment.setVisible(false);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+    
+
     /**
      * @param args the command line arguments
      */
@@ -1685,6 +1893,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JButton BtnOuiConfirmation;
     private javax.swing.JFrame CreerModifierClient;
     private javax.swing.JFrame CreerModifierRDV;
+    private javax.swing.JFrame CreerTypeOuMoyenPaiment;
     private javax.swing.JLabel LabelNomRDV;
     private javax.swing.JLabel LabelTypeRDV;
     private javax.swing.JOptionPane MessageBienvenue;
@@ -1701,6 +1910,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnValider;
     private javax.swing.JButton btnValiderRDV;
     private javax.swing.JTextField champAdresse;
+    private javax.swing.JTextField champCreerTypeOuMoyenPaiment;
     private javax.swing.JFormattedTextField champDateDepart;
     private javax.swing.JFormattedTextField champDateRetour;
     private javax.swing.JFormattedTextField champHeureDepart;
@@ -1719,6 +1929,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboEtatRDV;
     private javax.swing.JComboBox<String> comboMoyenPaimentRDV;
     private javax.swing.JComboBox<String> comboTypeRdv;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1734,6 +1946,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1742,18 +1957,22 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelAdresse;
+    private javax.swing.JLabel labelChampCreerTypeOuMoyenPaiment;
     private javax.swing.JLabel labelMobile;
     private javax.swing.JLabel labelNom;
     private javax.swing.JLabel labelPrenom;
+    private javax.swing.JLabel labelTitreCreationTypeOuMoyenPaiment;
     private javax.swing.JLabel labelTitreCreerModifierClient;
     private javax.swing.JLabel labelTitreCreerModifierRDV;
     private javax.swing.JTabbedPane onglet;
     private javax.swing.JFrame pageAccueuil;
+    private javax.swing.JMenu parametre;
     private javax.swing.JFileChooser selecteurFichier;
     private javax.swing.JSpinner spinnerNbPersonnes;
     private javax.swing.JTable tableClients;
