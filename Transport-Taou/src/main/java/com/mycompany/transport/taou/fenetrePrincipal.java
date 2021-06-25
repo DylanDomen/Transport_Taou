@@ -5,12 +5,16 @@
  */
 package com.mycompany.transport.taou;
 
+import static com.mycompany.transport.taou.HashMDP.decrypte;
+import static com.mycompany.transport.taou.HashMDP.encrypte;
+import static com.mycompany.transport.taou.HashMDP.genereCle;
 import com.mycompany.transport.taou.designPattern.ConnexionBase;
 import com.mycompany.transport.taou.designPattern.Observateur;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.spec.KeySpec;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
@@ -20,7 +24,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -106,6 +116,19 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             String nomUtilisateurBase = resultat.getString("nom_utilisateur");
             String motDePasseBase = resultat.getString("mot_de_passe");
 
+            //====================TEST HASH=====================pb : cle de hashage pas sotcké , le cryptage change en fonction de la session
+            /*try {
+                SecretKey cle = genereCle("AES");
+                Cipher chiffrement;
+                chiffrement = Cipher.getInstance("AES");
+                System.out.println(cle);
+                System.out.println(chiffrement);
+                byte[] texteEncrypter = encrypte(motDePasse, cle, chiffrement);
+                String mdpCrypter = new String(texteEncrypter);
+                motDePasse = mdpCrypter;
+            } catch (Exception e) {
+                motDePasse = "";
+            }*/
             if (nomUtilisateur.equals(nomUtilisateurBase) && motDePasseBase.equals(motDePasse)) {
                 pageAccueuil.setVisible(true);
                 pageAccueuil.setBounds(0, 0, 1920, 1080);
@@ -206,32 +229,30 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     }
 
     public void majCombos() throws SQLException {
-        
+
         listeTypeDemande = new ArrayList<TypeDemande>();
         ListTypeModel ListeTypeModel = new ListTypeModel();
         DefaultComboBoxModel defautComboBoxModel = new DefaultComboBoxModel();
-        
-        
+
         connexionBase = ConnexionBase.recupInstance();
         ResultSet resultat = connexionBase.requeteRecupereTout("SELECT * FROM type_demande");
-        
-        while(resultat.next()){
-            
+
+        while (resultat.next()) {
+
             TypeDemande typeDemande = new TypeDemande();
             typeDemande.setTypeDemande(resultat.getString("typeDemande"));
             typeDemande.setId(resultat.getInt("id"));
-            
+
             listeTypeDemande.add(typeDemande);
-            
-            
+
         }
         for (TypeDemande type : listeTypeDemande) {
             defautComboBoxModel.addElement(type);
         }
-        
+
         comboTypeRdv.setModel(defautComboBoxModel);
         comboTypeRdv.setRenderer(new MaListeCellRenderer());
-        
+
     }
 
     /**
@@ -1134,6 +1155,18 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         String motDePasse = champMotDePasse.getText();
         String etatBTN = btnLog.getText();
 
+        /*try {
+            SecretKey cle = genereCle("AES");
+            Cipher chiffrement;
+            chiffrement = Cipher.getInstance("AES");
+
+            byte[] texteEncrypter = encrypte(motDePasse, cle, chiffrement);
+            String mdpCrypter = new String(texteEncrypter);
+            motDePasse = mdpCrypter;
+        } catch (Exception e) {
+            motDePasse = "";
+        }*/
+
         try {
             //chargement driver
             Class.forName("org.postgresql.Driver");
@@ -1188,17 +1221,17 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 CreerModifierRDV.setLocationRelativeTo(null);
                 CreerModifierRDV.setTitle("Transport T'aou - Création d'un Rendez-vous");
                 labelTitreCreerModifierRDV.setText("Création d'un Rendez-vous");
-                
-                {
+
+                 {
                     try {
                         //chargement des combos :
                         majCombos();
-                       
+
                     } catch (SQLException ex) {
                         Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
                 break;
 
             case 2://calendrier               
