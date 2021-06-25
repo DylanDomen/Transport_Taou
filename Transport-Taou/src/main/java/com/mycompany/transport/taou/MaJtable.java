@@ -57,7 +57,7 @@ public class MaJtable extends javax.swing.JTable implements Observateur {
                 break;
         }
         
-        //fenPrincipal.videTableauClients();
+        fenPrincipal.videTableauClients();
         fenPrincipal.afficheTableauClients();
              
     }

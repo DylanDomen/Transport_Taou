@@ -65,11 +65,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         initComponents();
 
         nbLigne = tableClients.getRowCount();
-        //modelBase = (DefaultTableModel) tableClients.getModel();
-        //selectionModelBase = (ListSelectionModel) tableClients.getSelectionModel();
+        modelBase = (DefaultTableModel) tableClients.getModel();
+        selectionModelBase = (ListSelectionModel) tableClients.getSelectionModel();
         tableClients = new MaJtable(this);
-        //tableClients.setModel(modelBase);
-        //tableClients.setSelectionModel(selectionModelBase);
+        tableClients.setModel(modelBase);
+        tableClients.setSelectionModel(selectionModelBase);
         client = new Client();
         premiereUtilisation();
     }
@@ -147,9 +147,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         try {
             connexionBase = ConnexionBase.recupInstance();
             ResultSet resultat = connexionBase.requeteRecupereTout("Select * from clients");
-            //Integer i = 0;
+            Integer i = 0;
 
-            MonModel model= new MonModel();
+            //MonModel model= new MonModel();
             
             while (resultat.next()) {
                 Client client = new Client();
@@ -160,16 +160,16 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 client.setAdresse(resultat.getString("adresse"));
                 client.setId(resultat.getInt("id"));
 
-                model.ajoutClient(client);
+                //model.ajoutClient(client);
                 
-                /*tableClients.setValueAt(client.getNom(), i, 0);
+                tableClients.setValueAt(client.getNom(), i, 0);
                 tableClients.setValueAt(client.getPrenom(), i, 1);
                 tableClients.setValueAt(client.getMobile(), i, 2);
                 tableClients.setValueAt(client.getAdresse(), i, 3);
                 tableClients.setValueAt(client.getId(), i, 4);
-                i++;*/
+                i++;
             }
-            tableClients.setModel(model);
+            //tableClients.setModel(model);
             tableClients.getColumnModel().getColumn(4).setMinWidth(0);
             tableClients.getColumnModel().getColumn(4).setMaxWidth(0);
 
@@ -402,7 +402,128 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         });
 
         tableClients.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
-        tableClients.setModel(new MonModel());
+        tableClients.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nom", "Prenom", "Mobile", "Adresse", "Id"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableClients.setGridColor(new java.awt.Color(51, 51, 51));
         tableClients.setSelectionBackground(new java.awt.Color(255, 204, 204));
         tableClients.getTableHeader().setReorderingAllowed(false);
@@ -416,7 +537,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             tableClients.getColumnModel().getColumn(0).setResizable(false);
             tableClients.getColumnModel().getColumn(1).setResizable(false);
             tableClients.getColumnModel().getColumn(2).setResizable(false);
-            tableClients.getColumnModel().getColumn(3).setResizable(false);
             tableClients.getColumnModel().getColumn(4).setResizable(false);
         }
 
@@ -1027,18 +1147,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addGap(78, 78, 78)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnValiderRDV)
-                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(champLieuDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                .addComponent(champHeureDepart, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(champDateDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(spinnerNbPersonnes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1051,9 +1159,22 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addComponent(LabelTypeRDV)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboTypeRdv, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(69, 69, 69)
+                                .addComponent(comboTypeRdv, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnValiderRDV)
+                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(champLieuDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                                        .addComponent(champHeureDepart, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(champDateDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(43, 43, 43)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAnnulerRDV)
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addGap(76, 76, 76)
@@ -1071,8 +1192,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
-                                    .addComponent(jLabel17)
-                                    .addComponent(btnAnnulerRDV))
+                                    .addComponent(jLabel17))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboEtatRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1140,7 +1260,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(comboEtatRDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnValiderRDV)
                     .addComponent(btnAnnulerRDV))
@@ -1476,9 +1596,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         String mobile = client.getMobile();
         String adresse = client.getAdresse();
         //ajouter une ligne en plus dans le tableau
-        //Integer r = tableClients.getRowCount() + 1;
-        //modelBase.setRowCount(r);
-        //tableClients.setModel(modelBase);
+        Integer r = tableClients.getRowCount() + 1;
+        modelBase.setRowCount(r);
+        tableClients.setModel(modelBase);
         String titre = labelTitreCreerModifierClient.getText();
         ClientDAO sujet = new ClientDAO();
         sujet.ajouterObservateur((MaJtable) tableClients);
@@ -1648,13 +1768,22 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private void btnValiderRDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderRDVActionPerformed
 
         connexionBase = connexionBase.recupInstance();
-
+        String nom = champNomRDV.getText();
+        TypeDemande typeDemandeSelectionne = (TypeDemande) comboTypeRdv.getSelectedItem();
+        Integer idTypeDemande = typeDemandeSelectionne.getId();
+        String dateDepart = champDateDepart.getText();
+        MoyenPaiment moyenPaimentSelectionne = (MoyenPaiment) comboMoyenPaimentRDV.getSelectedItem();
+        String chaineSpinner = spinnerNbPersonnes.getValue().toString();
+        Integer nbPersonne = Integer.parseInt(chaineSpinner);
+        Double prix = Double.parseDouble(champPrix.getText());
+        String etat = comboEtatRDV.getSelectedItem().toString();
+        
         /*RendezVous rdv = new RendezVous(champNomRDV.getText(),
             comboTypeRdv.getSelectedItem().getClass()., champDateDepart.getText(), champHeureDepart.getText(),
             champLieuDepart.getText(), champLieuDestination.getText(), champDateRetour.getText(),
             champHeureRetour.getText(), champNoteRDV.getText(), spinnerNbPersonnes.getValue(),
             champPrix.getText(), comboMoyenPaimentRDV.getSelectedItem(), comboEtatRDV.getSelectedItem());*/
-
+    
     }//GEN-LAST:event_btnValiderRDVActionPerformed
 
     private void comboTypeRdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeRdvActionPerformed

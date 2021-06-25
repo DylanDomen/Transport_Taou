@@ -15,22 +15,22 @@ import org.w3c.dom.Text;
 public class RendezVous {
     private String nom;
     private Integer type;
-    private Short dateDepart;
-    private Short heureDepart;
+    private String dateDepart;
+    private String heureDepart;
     private String lieuDepart;
     private String lieuDestination;
-    private Short dateRetour;
-    private Short heureRetour;
-    private Text note;
+    private String dateRetour;
+    private String heureRetour;
+    private String note;
     private Integer nbPersonnes;
-    private BigDecimal prix;
+    private Double prix;
     private Integer moyenPaiment;
     private Boolean etat;
 
     public RendezVous() {
     }
 
-    public RendezVous(String nom, Integer type, Short dateDepart, Short heureDepart, String lieuDepart, String lieuDestination, Short dateRetour, Short heureRetour, Text note, Integer nbPersonnes, BigDecimal prix, Integer moyenPaiment, Boolean etat) {
+    public RendezVous(String nom, Integer type, String dateDepart, String heureDepart, String lieuDepart, String lieuDestination, String dateRetour, String heureRetour, String note, Integer nbPersonnes, Double prix, Integer moyenPaiment, Boolean etat) {
         this.nom = nom;
         this.type = type;
         this.dateDepart = dateDepart;
@@ -67,19 +67,19 @@ public class RendezVous {
         this.type = type;
     }
 
-    public Short getDateDepart() {
+    public String getDateDepart() {
         return dateDepart;
     }
 
-    public void setDateDepart(Short dateDepart) {
+    public void setDateDepart(String dateDepart) {
         this.dateDepart = dateDepart;
     }
 
-    public Short getHeureDepart() {
+    public String getHeureDepart() {
         return heureDepart;
     }
 
-    public void setHeureDepart(Short heureDepart) {
+    public void setHeureDepart(String heureDepart) {
         this.heureDepart = heureDepart;
     }
 
@@ -99,27 +99,27 @@ public class RendezVous {
         this.lieuDestination = lieuDestination;
     }
 
-    public Short getDateRetour() {
+    public String getDateRetour() {
         return dateRetour;
     }
 
-    public void setDateRetour(Short dateRetour) {
+    public void setDateRetour(String dateRetour) {
         this.dateRetour = dateRetour;
     }
 
-    public Short getHeureRetour() {
+    public String getHeureRetour() {
         return heureRetour;
     }
 
-    public void setHeureRetour(Short heureRetour) {
+    public void setHeureRetour(String heureRetour) {
         this.heureRetour = heureRetour;
     }
 
-    public Text getNote() {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(Text note) {
+    public void setNote(String note) {
         this.note = note;
     }
 
@@ -131,11 +131,11 @@ public class RendezVous {
         this.nbPersonnes = nbPersonnes;
     }
 
-    public BigDecimal getPrix() {
+    public Double getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
+    public void setPrix(Double prix) {
         this.prix = prix;
     }
 
@@ -154,6 +154,8 @@ public class RendezVous {
     public void setEtat(Boolean etat) {
         this.etat = etat;
     }
+
+    
     
     
 }
