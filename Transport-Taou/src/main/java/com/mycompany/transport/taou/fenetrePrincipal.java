@@ -150,7 +150,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             Integer i = 0;
 
             //MonModel model= new MonModel();
-            
             while (resultat.next()) {
                 Client client = new Client();
 
@@ -161,7 +160,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 client.setId(resultat.getInt("id"));
 
                 //model.ajoutClient(client);
-                
                 tableClients.setValueAt(client.getNom(), i, 0);
                 tableClients.setValueAt(client.getPrenom(), i, 1);
                 tableClients.setValueAt(client.getMobile(), i, 2);
@@ -222,7 +220,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
             Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         return i;
-        
+
     }
 
     public void majCombos() throws SQLException {
@@ -255,10 +253,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         listeMoyensPaiment = new ArrayList<MoyenPaiment>();
         ListPaimentModel ListePaimentModel = new ListPaimentModel();
         DefaultComboBoxModel defautComboBoxModelMoyenpaiment = new DefaultComboBoxModel();
-        
+
         connexionBase = ConnexionBase.recupInstance();
         resultat = connexionBase.requeteRecupereTout("SELECT * FROM moyens_paiment");
-        
+
         while (resultat.next()) {
 
             MoyenPaiment moyenPaiment = new MoyenPaiment();
@@ -271,9 +269,37 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         for (MoyenPaiment moyen : listeMoyensPaiment) {
             defautComboBoxModelMoyenpaiment.addElement(moyen);
         }
-        
+
         comboMoyenPaimentRDV.setModel(defautComboBoxModelMoyenpaiment);
         comboMoyenPaimentRDV.setRenderer(new MaListeCellRenderer());
+
+        //combo clients
+        listeClient = new ArrayList<Client>();
+        ListClientModel ListeClientModel = new ListClientModel();
+        DefaultComboBoxModel defautComboBoxClient = new DefaultComboBoxModel();
+
+        connexionBase = ConnexionBase.recupInstance();
+        resultat = connexionBase.requeteRecupereTout("SELECT * FROM clients");
+
+        while (resultat.next()) {
+
+            Client client = new Client();
+            client.setNom(resultat.getString("nom"));
+            client.setPrenom(resultat.getString("prenom"));
+            client.setMobile(resultat.getString("mobile"));
+            client.setAdresse(resultat.getString("adresse"));
+            client.setId(resultat.getInt("id"));
+
+            listeClient.add(client);
+
+        }
+        for (Client client : listeClient) {
+            defautComboBoxClient.addElement(client);
+        }
+
+        comboClient.setModel(defautComboBoxClient);
+        comboClient.setRenderer(new MaListeCellRenderer());
+
     }
 
     /**
@@ -359,6 +385,9 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         btnValiderRDV = new javax.swing.JButton();
         btnAnnulerRDV = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        comboClient = new javax.swing.JComboBox<>();
         CreerTypeOuMoyenPaiment = new javax.swing.JFrame();
         jPanel9 = new javax.swing.JPanel();
         labelTitreCreationTypeOuMoyenPaiment = new javax.swing.JLabel();
@@ -551,7 +580,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
                 .addGap(35, 35, 35))
         );
 
@@ -707,7 +736,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
         );
 
         onglet.addTab("Rendez-vous", jPanel2);
@@ -720,7 +749,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
+            .addGap(0, 541, Short.MAX_VALUE)
         );
 
         onglet.addTab("Calendrier", jPanel3);
@@ -792,7 +821,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                     .addComponent(champRecherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRechercher))
                 .addGap(60, 60, 60)
-                .addComponent(onglet))
+                .addComponent(onglet, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(170, 170, 170)
                 .addComponent(btnNouveau)
@@ -843,7 +872,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         );
         pageAccueuilLayout.setVerticalGroup(
             pageAccueuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         CreerModifierClient.setResizable(false);
@@ -1098,8 +1127,6 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel14.setText("Note");
 
-        champLieuDepart.setText("jTextField1");
-
         jLabel9.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         jLabel9.setText("Lieu Départ");
 
@@ -1139,10 +1166,21 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         btnAnnulerRDV.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         btnAnnulerRDV.setText("Annuler");
 
+        jLabel3.setText("€");
+
+        jLabel6.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
+        jLabel6.setText("Client concerné");
+
+        comboClient.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(219, 219, 219)
+                .addComponent(labelTitreCreerModifierRDV)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1151,34 +1189,41 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(spinnerNbPersonnes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(LabelNomRDV)
+                                .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(champNomRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(LabelTypeRDV)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboTypeRdv, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel7))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnValiderRDV)
-                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(champLieuDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                        .addComponent(champHeureDepart, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(champDateDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(comboClient, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel8Layout.createSequentialGroup()
+                                    .addComponent(LabelNomRDV)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(champNomRDV, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel8Layout.createSequentialGroup()
+                                    .addComponent(LabelTypeRDV)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(comboTypeRdv, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel8Layout.createSequentialGroup()
+                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jLabel7))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnValiderRDV)
+                                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(champLieuDepart, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(champHeureDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                                            .addComponent(champDateDepart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAnnulerRDV)
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addGap(76, 76, 76)
-                                .addComponent(champPrix, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(champPrix, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
@@ -1186,8 +1231,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                                     .addComponent(jLabel12))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(champLieuDestination, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                    .addComponent(champDateRetour)
+                                    .addComponent(champLieuDestination)
+                                    .addComponent(champDateRetour, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                                     .addComponent(champHeureRetour)))
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1201,11 +1246,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                                 .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(72, Short.MAX_VALUE))
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(219, 219, 219)
-                .addComponent(labelTitreCreerModifierRDV)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(473, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1248,10 +1289,15 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel13)
                             .addComponent(spinnerNbPersonnes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(comboClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(champPrix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(champPrix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1271,11 +1317,11 @@ public class fenetrePrincipal extends javax.swing.JFrame {
         CreerModifierRDV.getContentPane().setLayout(CreerModifierRDVLayout);
         CreerModifierRDVLayout.setHorizontalGroup(
             CreerModifierRDVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         CreerModifierRDVLayout.setVerticalGroup(
             CreerModifierRDVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel9.setBackground(new java.awt.Color(255, 204, 204));
@@ -1493,7 +1539,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 break;
             case 1://rendez-vous 
                 CreerModifierRDV.setVisible(true);
-                CreerModifierRDV.setBounds(0, 0, 621, 583);
+                CreerModifierRDV.setBounds(0, 0, 1024, 614);
                 CreerModifierRDV.setLocationRelativeTo(null);
                 CreerModifierRDV.setTitle("Transport T'aou - Création d'un Rendez-vous");
                 labelTitreCreerModifierRDV.setText("Création d'un Rendez-vous");
@@ -1767,23 +1813,53 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
     private void btnValiderRDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderRDVActionPerformed
 
-        connexionBase = connexionBase.recupInstance();
         String nom = champNomRDV.getText();
         TypeDemande typeDemandeSelectionne = (TypeDemande) comboTypeRdv.getSelectedItem();
         Integer idTypeDemande = typeDemandeSelectionne.getId();
         String dateDepart = champDateDepart.getText();
+        String heureDepart = champHeureDepart.getText();
+        String lieuDepart = champLieuDepart.getText();
+        String lieuDestination = champLieuDestination.getText();
+        String dateRetour = champDateRetour.getText();
+        String heureRetour = champHeureRetour.getText();
+        String note = champNoteRDV.getText();
         MoyenPaiment moyenPaimentSelectionne = (MoyenPaiment) comboMoyenPaimentRDV.getSelectedItem();
+        Integer idMoyenPaiment = moyenPaimentSelectionne.getId();
         String chaineSpinner = spinnerNbPersonnes.getValue().toString();
         Integer nbPersonne = Integer.parseInt(chaineSpinner);
         Double prix = Double.parseDouble(champPrix.getText());
         String etat = comboEtatRDV.getSelectedItem().toString();
-        
-        /*RendezVous rdv = new RendezVous(champNomRDV.getText(),
-            comboTypeRdv.getSelectedItem().getClass()., champDateDepart.getText(), champHeureDepart.getText(),
-            champLieuDepart.getText(), champLieuDestination.getText(), champDateRetour.getText(),
-            champHeureRetour.getText(), champNoteRDV.getText(), spinnerNbPersonnes.getValue(),
-            champPrix.getText(), comboMoyenPaimentRDV.getSelectedItem(), comboEtatRDV.getSelectedItem());*/
-    
+        Client clientSelectionne = (Client) comboClient.getSelectedItem();
+        Integer idClient = clientSelectionne.getId();
+        Boolean boolEtat = false;
+        if (etat.equals("Terminé")) {
+            boolEtat = true;
+        }
+
+        RendezVous rdv = new RendezVous(nom, idTypeDemande, dateDepart, heureDepart, lieuDepart, lieuDestination, dateRetour, heureRetour, nbPersonne, prix, idMoyenPaiment, boolEtat, idClient, note);
+
+        if (!(rdv.getNom()).equals("") && !(rdv.getType()).equals(0) && !(rdv.getDateDepart()).equals("") && !(rdv.getHeureDepart()).equals("") && !(rdv.getLieuDepart()).equals("")
+                && !(rdv.getLieuDestination()).equals("") && !(rdv.getDateRetour()).equals("") && !(rdv.getHeureRetour()).equals("") && !(rdv.getNbPersonnes()).equals(0)
+                && !(rdv.getPrix()).equals("") && !(rdv.getMoyenPaiment()).equals(0) && !(rdv.getEtat()).equals("") && !(rdv.getIdClient()).equals(0)) {
+            if ((labelTitreCreerModifierRDV.getText()).equals("Création d'un Rendez-vous")) {//création d'un client
+                connexionBase = connexionBase.recupInstance();
+                Connection connexion = connexionBase.getConnexion();
+                
+                RdvDAO sujet = new RdvDAO();
+                sujet.ajouterObservateur((MaJtable) tableClients);
+                sujet.creerRdv(rdv);
+                CreerModifierRDV.setVisible(false);
+
+            } else {//modification d'un client
+
+            }
+        } else {//champ sont vide
+            
+            JOptionPane.showMessageDialog(MessageBienvenue, "Veuillez remplir correctement les champs",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btnValiderRDVActionPerformed
 
     private void comboTypeRdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeRdvActionPerformed
@@ -1869,7 +1945,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetrePrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(MessageBienvenue, "ERREUR!\nVeuillez remplir correctement le champ moyen de paiment",
                         "Erreur", JOptionPane.ERROR_MESSAGE);
             }
@@ -1886,9 +1962,8 @@ public class fenetrePrincipal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         CreerTypeOuMoyenPaiment.setVisible(false);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
-    
 
     /**
      * @param args the command line arguments
@@ -1963,6 +2038,7 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField champPrenom;
     private javax.swing.JTextField champPrix;
     private javax.swing.JTextField champRecherche;
+    private javax.swing.JComboBox<String> comboClient;
     private javax.swing.JComboBox<String> comboEtatRDV;
     private javax.swing.JComboBox<String> comboMoyenPaimentRDV;
     private javax.swing.JComboBox<String> comboTypeRdv;
@@ -1978,8 +2054,10 @@ public class fenetrePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

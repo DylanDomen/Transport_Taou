@@ -26,11 +26,12 @@ public class RendezVous {
     private Double prix;
     private Integer moyenPaiment;
     private Boolean etat;
+    private Integer idClient;
 
     public RendezVous() {
     }
 
-    public RendezVous(String nom, Integer type, String dateDepart, String heureDepart, String lieuDepart, String lieuDestination, String dateRetour, String heureRetour, String note, Integer nbPersonnes, Double prix, Integer moyenPaiment, Boolean etat) {
+    public RendezVous(String nom, Integer type, String dateDepart, String heureDepart, String lieuDepart, String lieuDestination, String dateRetour, String heureRetour, Integer nbPersonnes, Double prix, Integer moyenPaiment, Boolean etat,Integer idClient,String note) {
         this.nom = nom;
         this.type = type;
         this.dateDepart = dateDepart;
@@ -39,17 +40,21 @@ public class RendezVous {
         this.lieuDestination = lieuDestination;
         this.dateRetour = dateRetour;
         this.heureRetour = heureRetour;
-        this.note = note;
         this.nbPersonnes = nbPersonnes;
         this.prix = prix;
         this.moyenPaiment = moyenPaiment;
         this.etat = etat;
+        this.idClient = idClient;
+        this.note = note;
+         
     }
 
     @Override
     public String toString() {
-        return nom;
+        return super.toString(); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
     public String getNom() {
         return nom;
@@ -153,6 +158,14 @@ public class RendezVous {
 
     public void setEtat(Boolean etat) {
         this.etat = etat;
+    }
+
+    public Integer getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(Integer idClient) {
+        this.idClient = idClient;
     }
 
     

@@ -51,6 +51,9 @@ public class MaJtable extends javax.swing.JTable implements Observateur {
             case "Modification":
                 JOptionPane.showMessageDialog(fenPrincipal, "Client modifier avec succès");
                 break;
+            case "Creation RDV":
+                JOptionPane.showMessageDialog(fenPrincipal, "Rendez-vous Creer avec succès");
+                break;
             default:
                 JOptionPane.showMessageDialog(fenPrincipal, "Veuillez remplir correctement les champs obligatoire",
                         "Erreur", JOptionPane.ERROR_MESSAGE);
